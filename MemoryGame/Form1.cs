@@ -13,6 +13,7 @@ namespace MemoryGame
     public partial class Form1 : Form
     {
         Memory game;
+
         public Form1()
         {
             InitializeComponent();
@@ -20,13 +21,12 @@ namespace MemoryGame
             //Create an instace of the base class of our memory game
             this.game = new Memory();
         }
-        private void Form1_Load(object sender, System.EventArgs e)
+
+        private void RenderDeck()
         {
-            //Hide the tabs on the tabcontrol that we use to navigate our game
-            tabControl1.Appearance = TabAppearance.FlatButtons;
-            tabControl1.ItemSize = new Size(0, 1);
-            tabControl1.SizeMode = TabSizeMode.Fixed;
-            //Build the memory deck 
+            /* Generate a memory game playing field based on 
+             * 
+             */
             tableLayoutPanel1.ColumnCount = this.game.Collumns;
             tableLayoutPanel1.RowCount = this.game.Rows;
             tableLayoutPanel1.BackColor = Color.SlateGray;
@@ -38,6 +38,14 @@ namespace MemoryGame
                 tableLayoutPanel1.RowStyles.Add(new RowStyle() { Height = 50, SizeType = SizeType.Percent });
             for (int x = 0; x < tableLayoutPanel1.ColumnCount; x++)
                 tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle() { Width = 50, SizeType = SizeType.Percent });
+        }
+
+        private void Form1_Load(object sender, System.EventArgs e)
+        {
+            //Hide the tabs on the tabcontrol that we use to navigate our game
+            tabControl1.Appearance = TabAppearance.FlatButtons;
+            tabControl1.ItemSize = new Size(0, 1);
+            tabControl1.SizeMode = TabSizeMode.Fixed;
         }
 
         //NAVIGATION 
@@ -67,6 +75,8 @@ namespace MemoryGame
         }
         private void buttonStartMemoryGame_Click(object sender, EventArgs e)
         {
+            //Build the memory deck 
+            this.RenderDeck();
             tabControl1.SelectedTab = tabMemory;
 
         }
