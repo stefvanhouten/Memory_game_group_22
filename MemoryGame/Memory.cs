@@ -8,8 +8,8 @@ namespace MemoryGame
 {
     class Memory
     {
-        public int Rows { get; private set; }
-        public int Collumns { get; private set; }
+        public int Rows { get; private set; } = 4;
+        public int Collumns { get; private set; } = 4;
 
         public Player PlayerOne;
         public Player PlayerTwo;

@@ -12,14 +12,13 @@ namespace MemoryGame
 {
     public partial class Form1 : Form
     {
+        Memory game;
         public Form1()
         {
             InitializeComponent();
             this.Load += Form1_Load; //Add our custom load method 
-            tableLayoutPanel1.ColumnCount = 4;
-            tableLayoutPanel1.RowCount = 4;
             //Create an instace of the base class of our memory game
-            Memory game = new Memory();
+            this.game = new Memory();
         }
         private void Form1_Load(object sender, System.EventArgs e)
         {
@@ -27,6 +26,18 @@ namespace MemoryGame
             tabControl1.Appearance = TabAppearance.FlatButtons;
             tabControl1.ItemSize = new Size(0, 1);
             tabControl1.SizeMode = TabSizeMode.Fixed;
+            //Build the memory deck 
+            tableLayoutPanel1.ColumnCount = this.game.Collumns;
+            tableLayoutPanel1.RowCount = this.game.Rows;
+            tableLayoutPanel1.BackColor = Color.SlateGray;
+            tableLayoutPanel1.CellBorderStyle = TableLayoutPanelCellBorderStyle.Inset;
+            tableLayoutPanel1.ColumnStyles.Clear(); //Clear default Toolbox settings
+            tableLayoutPanel1.RowStyles.Clear();    //Clear default Toolbox settings
+            //Apply the settings we want to the grid
+            for (int x = 0; x < tableLayoutPanel1.RowCount; x++)
+                tableLayoutPanel1.RowStyles.Add(new RowStyle() { Height = 50, SizeType = SizeType.Percent });
+            for (int x = 0; x < tableLayoutPanel1.ColumnCount; x++)
+                tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle() { Width = 50, SizeType = SizeType.Percent });
         }
 
         //NAVIGATION 
