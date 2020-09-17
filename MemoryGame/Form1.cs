@@ -16,7 +16,8 @@ namespace MemoryGame
         {
             InitializeComponent();
             this.Load += Form1_Load; //Add our custom load method 
-
+            tableLayoutPanel1.ColumnCount = 4;
+            tableLayoutPanel1.RowCount = 4;
             //Create an instace of the base class of our memory game
             Memory game = new Memory();
         }
@@ -28,9 +29,41 @@ namespace MemoryGame
             tabControl1.SizeMode = TabSizeMode.Fixed;
         }
 
+        //NAVIGATION 
         private void ButtonHighScores_Click(object sender, EventArgs e)
         {
             tabControl1.SelectedTab = tabHighScores;
         }
+
+        private void buttonSelectTheme_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectedTab = tabThemeSelection;
+        }
+
+        private void buttonHighScoresHome_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectedTab = tabHome;
+        }
+        private void buttonThemeSelectionHome_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectedTab = tabHome;
+        }
+
+        private void buttonPreGameHome_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectedTab = tabHome;
+
+        }
+        private void buttonStartMemoryGame_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectedTab = tabMemory;
+
+        }
+
+        private void buttonStartGame_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectedTab = tabPreGame;
+        }
+
     }
 }
