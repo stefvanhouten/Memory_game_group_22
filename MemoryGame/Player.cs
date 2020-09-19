@@ -8,7 +8,7 @@ namespace MemoryGame
 {
     class Player
     {
-        public ScoreBoard score;
+        public ScoreBoard score { get; private set; }
 
         public Player()
         {

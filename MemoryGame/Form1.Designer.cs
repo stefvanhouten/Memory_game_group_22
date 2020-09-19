@@ -46,16 +46,16 @@
             this.buttonThemeSelectionHome = new System.Windows.Forms.Button();
             this.labelThemeSelect = new System.Windows.Forms.Label();
             this.tabPreGame = new System.Windows.Forms.TabPage();
+            this.buttonStartMemoryGame = new System.Windows.Forms.Button();
+            this.buttonPreGameHome = new System.Windows.Forms.Button();
+            this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tabMemory = new System.Windows.Forms.TabPage();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.buttonPreGameHome = new System.Windows.Forms.Button();
-            this.buttonStartMemoryGame = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tabHighScores.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tabHome.SuspendLayout();
@@ -93,7 +93,7 @@
             this.buttonHighScoresHome.TabIndex = 2;
             this.buttonHighScoresHome.Text = "Home";
             this.buttonHighScoresHome.UseVisualStyleBackColor = true;
-            this.buttonHighScoresHome.Click += new System.EventHandler(this.buttonHighScoresHome_Click);
+            this.buttonHighScoresHome.Click += new System.EventHandler(this.ButtonHighScoresHome_Click);
             // 
             // dataGridView1
             // 
@@ -160,7 +160,7 @@
             this.buttonSelectTheme.TabIndex = 2;
             this.buttonSelectTheme.Text = "Select new theme";
             this.buttonSelectTheme.UseVisualStyleBackColor = true;
-            this.buttonSelectTheme.Click += new System.EventHandler(this.buttonSelectTheme_Click);
+            this.buttonSelectTheme.Click += new System.EventHandler(this.ButtonSelectTheme_Click);
             // 
             // buttonHighScores
             // 
@@ -182,7 +182,7 @@
             this.buttonStartGame.TabIndex = 0;
             this.buttonStartGame.Text = "Start game";
             this.buttonStartGame.UseVisualStyleBackColor = true;
-            this.buttonStartGame.Click += new System.EventHandler(this.buttonStartGame_Click);
+            this.buttonStartGame.Click += new System.EventHandler(this.ButtonStartGame_Click);
             // 
             // tabControl1
             // 
@@ -219,7 +219,7 @@
             this.buttonThemeSelectionHome.TabIndex = 3;
             this.buttonThemeSelectionHome.Text = "Home";
             this.buttonThemeSelectionHome.UseVisualStyleBackColor = true;
-            this.buttonThemeSelectionHome.Click += new System.EventHandler(this.buttonThemeSelectionHome_Click);
+            this.buttonThemeSelectionHome.Click += new System.EventHandler(this.ButtonThemeSelectionHome_Click);
             // 
             // labelThemeSelect
             // 
@@ -244,6 +244,35 @@
             this.tabPreGame.TabIndex = 4;
             this.tabPreGame.Text = "tabPreGame";
             this.tabPreGame.UseVisualStyleBackColor = true;
+            // 
+            // buttonStartMemoryGame
+            // 
+            this.buttonStartMemoryGame.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.buttonStartMemoryGame.Location = new System.Drawing.Point(0, 329);
+            this.buttonStartMemoryGame.Name = "buttonStartMemoryGame";
+            this.buttonStartMemoryGame.Size = new System.Drawing.Size(653, 50);
+            this.buttonStartMemoryGame.TabIndex = 5;
+            this.buttonStartMemoryGame.Text = "Start game";
+            this.buttonStartMemoryGame.UseVisualStyleBackColor = true;
+            this.buttonStartMemoryGame.Click += new System.EventHandler(this.ButtonStartMemoryGame_Click);
+            // 
+            // buttonPreGameHome
+            // 
+            this.buttonPreGameHome.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.buttonPreGameHome.Location = new System.Drawing.Point(0, 379);
+            this.buttonPreGameHome.Name = "buttonPreGameHome";
+            this.buttonPreGameHome.Size = new System.Drawing.Size(653, 50);
+            this.buttonPreGameHome.TabIndex = 4;
+            this.buttonPreGameHome.Text = "Home";
+            this.buttonPreGameHome.UseVisualStyleBackColor = true;
+            this.buttonPreGameHome.Click += new System.EventHandler(this.ButtonPreGameHome_Click);
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(11, 73);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(199, 20);
+            this.textBox2.TabIndex = 3;
             // 
             // textBox1
             // 
@@ -282,6 +311,26 @@
             this.tabMemory.Text = "Memory";
             this.tabMemory.UseVisualStyleBackColor = true;
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Dock = System.Windows.Forms.DockStyle.Right;
+            this.label4.Location = new System.Drawing.Point(540, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(113, 13);
+            this.label4.TabIndex = 1;
+            this.label4.Text = "[PLAYER 2]: [SCORE]";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Dock = System.Windows.Forms.DockStyle.Left;
+            this.label3.Location = new System.Drawing.Point(0, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(113, 13);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "[PLAYER 1]: [SCORE]";
+            // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 1;
@@ -299,55 +348,6 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(653, 413);
             this.tableLayoutPanel1.TabIndex = 0;
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(11, 73);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(199, 20);
-            this.textBox2.TabIndex = 3;
-            // 
-            // buttonPreGameHome
-            // 
-            this.buttonPreGameHome.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.buttonPreGameHome.Location = new System.Drawing.Point(0, 379);
-            this.buttonPreGameHome.Name = "buttonPreGameHome";
-            this.buttonPreGameHome.Size = new System.Drawing.Size(653, 50);
-            this.buttonPreGameHome.TabIndex = 4;
-            this.buttonPreGameHome.Text = "Home";
-            this.buttonPreGameHome.UseVisualStyleBackColor = true;
-            this.buttonPreGameHome.Click += new System.EventHandler(this.buttonPreGameHome_Click);
-            // 
-            // buttonStartMemoryGame
-            // 
-            this.buttonStartMemoryGame.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.buttonStartMemoryGame.Location = new System.Drawing.Point(0, 329);
-            this.buttonStartMemoryGame.Name = "buttonStartMemoryGame";
-            this.buttonStartMemoryGame.Size = new System.Drawing.Size(653, 50);
-            this.buttonStartMemoryGame.TabIndex = 5;
-            this.buttonStartMemoryGame.Text = "Start game";
-            this.buttonStartMemoryGame.UseVisualStyleBackColor = true;
-            this.buttonStartMemoryGame.Click += new System.EventHandler(this.buttonStartMemoryGame_Click);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Dock = System.Windows.Forms.DockStyle.Left;
-            this.label3.Location = new System.Drawing.Point(0, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(113, 13);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "[PLAYER 1]: [SCORE]";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Dock = System.Windows.Forms.DockStyle.Right;
-            this.label4.Location = new System.Drawing.Point(540, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(113, 13);
-            this.label4.TabIndex = 1;
-            this.label4.Text = "[PLAYER 2]: [SCORE]";
             // 
             // Form1
             // 

@@ -19,25 +19,7 @@ namespace MemoryGame
             InitializeComponent();
             this.Load += Form1_Load; //Add our custom load method 
             //Create an instace of the base class of our memory game
-            this.game = new Memory();
-        }
-
-        private void RenderDeck()
-        {
-            /* Generate a memory game playing field based on 
-             * 
-             */
-            tableLayoutPanel1.ColumnCount = this.game.Collumns;
-            tableLayoutPanel1.RowCount = this.game.Rows;
-            tableLayoutPanel1.BackColor = Color.SlateGray;
-            tableLayoutPanel1.CellBorderStyle = TableLayoutPanelCellBorderStyle.Inset;
-            tableLayoutPanel1.ColumnStyles.Clear(); //Clear default Toolbox settings
-            tableLayoutPanel1.RowStyles.Clear();    //Clear default Toolbox settings
-            //Apply the settings we want to the grid
-            for (int x = 0; x < tableLayoutPanel1.RowCount; x++)
-                tableLayoutPanel1.RowStyles.Add(new RowStyle() { Height = 50, SizeType = SizeType.Percent });
-            for (int x = 0; x < tableLayoutPanel1.ColumnCount; x++)
-                tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle() { Width = 50, SizeType = SizeType.Percent });
+            this.game = new Memory(tableLayoutPanel1);
         }
 
         private void Form1_Load(object sender, System.EventArgs e)
@@ -54,34 +36,34 @@ namespace MemoryGame
             tabControl1.SelectedTab = tabHighScores;
         }
 
-        private void buttonSelectTheme_Click(object sender, EventArgs e)
+        private void ButtonSelectTheme_Click(object sender, EventArgs e)
         {
             tabControl1.SelectedTab = tabThemeSelection;
         }
 
-        private void buttonHighScoresHome_Click(object sender, EventArgs e)
+        private void ButtonHighScoresHome_Click(object sender, EventArgs e)
         {
             tabControl1.SelectedTab = tabHome;
         }
-        private void buttonThemeSelectionHome_Click(object sender, EventArgs e)
+        private void ButtonThemeSelectionHome_Click(object sender, EventArgs e)
         {
             tabControl1.SelectedTab = tabHome;
         }
 
-        private void buttonPreGameHome_Click(object sender, EventArgs e)
+        private void ButtonPreGameHome_Click(object sender, EventArgs e)
         {
             tabControl1.SelectedTab = tabHome;
 
         }
-        private void buttonStartMemoryGame_Click(object sender, EventArgs e)
+        private void ButtonStartMemoryGame_Click(object sender, EventArgs e)
         {
             //Build the memory deck 
-            this.RenderDeck();
+            this.game.StartGame();
             tabControl1.SelectedTab = tabMemory;
 
         }
 
-        private void buttonStartGame_Click(object sender, EventArgs e)
+        private void ButtonStartGame_Click(object sender, EventArgs e)
         {
             tabControl1.SelectedTab = tabPreGame;
         }
