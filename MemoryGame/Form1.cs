@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+public delegate void EventHandler();
 namespace MemoryGame
 {
     public partial class Form1 : Form
@@ -19,6 +20,7 @@ namespace MemoryGame
             InitializeComponent();
             this.Load += Form1_Load; //Add our custom load method 
             //Create an instace of the base class of our memory game
+            //Not sure if adding Toolbox items to the class is the right way to go, might want to look into this. 
             this.game = new Memory(tableLayoutPanel1);
         }
 
@@ -57,10 +59,30 @@ namespace MemoryGame
         }
         private void ButtonStartMemoryGame_Click(object sender, EventArgs e)
         {
-            //Build the memory deck 
+            /* Validates that two player names have been provided. 
+             * If so create two new instances of Player and add them to the Memory.Players array.
+             * Personalize the memory game playing field by changing the labels to the player names. 
+             * 
+             * Call for the memory class to start the game, this will create a playing field. 
+             * After this is done we switch to the playing field.
+             * 
+             * Raises: 
+             *        MessageBox: MessageBox.Show is called whenever user fails to provide two player names
+             */
+            string playerOne = textBox1.Text;
+            string playerTwo = textBox2.Text;
+            if(String.IsNullOrEmpty(playerOne) || String.IsNullOrEmpty(playerTwo))
+            {
+                MessageBox.Show("Player names cannot be empty", "Validation error", MessageBoxButtons.OK);
+                return;
+            }
+            //Should probably make a method for adding new players to the game. This can be exploited
+            this.game.Players[0] = new Player(playerOne);
+            this.game.Players[1] = new Player(playerTwo);
+            label3.Text = $"{this.game.Players[0].Name} : {this.game.Players[0].ScoreBoard.Score}";
+            label4.Text = $"{this.game.Players[1].Name} : {this.game.Players[1].ScoreBoard.Score}";
             this.game.StartGame();
             tabControl1.SelectedTab = tabMemory;
-
         }
 
         private void ButtonStartGame_Click(object sender, EventArgs e)

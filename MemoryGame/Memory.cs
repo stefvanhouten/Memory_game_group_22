@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Security.Permissions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -10,6 +11,7 @@ namespace MemoryGame
     public class CardPictureBox : PictureBox
     {
         public string PairName { get; set; }
+        public bool isSolved {get; set;} = false;
     }
 
     public struct CardImage
@@ -20,40 +22,47 @@ namespace MemoryGame
 
     internal class Memory
     {
-        public int Rows { get; private set; } = 4;
-        public int Collumns { get; private set; } = 4;
         private bool GameFrozen { get; set; } = false;
+        private bool IsPlayerOnesTurn { get; set; } = true;
+        private List<KeyValuePair<int, string>> Theme = new List<KeyValuePair<int, string>>();
         private int SelectedTheme { get; set; } = 0;
-
-        public Player PlayerOne { get; private set; }
-        public Player PlayerTwo { get; private set; }
-
-        public List<Card> Deck { get; private set; }
-        public List<CardPictureBox> SelectedCards { get; private set; }
-
-        public TableLayoutPanel Panel { get; private set; }
-
-        private Dictionary<int, string> Theme = new Dictionary<int, string>()
+        //Probably need to look for a way to dynamicly do this
+        private Dictionary<int, List<CardImage>> ThemeImages = new Dictionary<int, List<CardImage>>()
         {
-            { 0, "Animals"},
+            { 0, new List<CardImage>() { 
+                new CardImage() { Name = "banana", Resource = Resources.banana }, 
+                new CardImage() { Name = "book", Resource = Resources.book },
+                new CardImage() { Name = "bug", Resource = Resources.bug },
+                new CardImage() { Name = "car", Resource = Resources.car },
+                new CardImage() { Name = "monkey", Resource = Resources.monkey },
+                new CardImage() { Name = "tornado", Resource = Resources.tornado },
+                new CardImage() { Name = "tree", Resource = Resources.tree },
+                new CardImage() { Name = "wine", Resource = Resources.wine },
+                new CardImage() { Name = "banana", Resource=Resources.banana },
+                new CardImage() { Name = "book", Resource = Resources.book },
+                new CardImage() { Name = "bug", Resource = Resources.bug },
+                new CardImage() { Name = "car", Resource = Resources.car },
+                new CardImage() { Name = "monkey", Resource = Resources.monkey },
+                new CardImage() { Name = "tornado", Resource = Resources.tornado },
+                new CardImage() { Name = "tree", Resource = Resources.tree },
+                new CardImage() { Name = "wine", Resource = Resources.wine },
+            } },
         };
 
-        private List<KeyValuePair<int, List<CardImage>>> ThemeImages = new List<KeyValuePair<int, List<CardImage>>>();
+        public int Rows { get; private set; } = 4;
+        public int Collumns { get; private set; } = 4;
+
+        public Player[] Players { get; private set; } = new Player[2];
+
+        public List<Card> Deck { get; private set; } 
+        public List<CardPictureBox> SelectedCards { get; private set; } //Holds 2 cards that currently are selected
+
+        public TableLayoutPanel Panel { get; private set; }
 
         public Memory(TableLayoutPanel panel)
         {
             this.Panel = panel;
-            for (int i = 0; i < 2; i++)
-            {
-                this.ThemeImages.Add(new KeyValuePair<int, List<CardImage>>(0, new List<CardImage>() { new CardImage() { Name = "banana", Resource = Resources.banana } }));
-                this.ThemeImages.Add(new KeyValuePair<int, List<CardImage>>(0, new List<CardImage>() { new CardImage() { Name = "book", Resource = Resources.book } }));
-                this.ThemeImages.Add(new KeyValuePair<int, List<CardImage>>(0, new List<CardImage>() { new CardImage() { Name = "bug", Resource = Resources.bug } }));
-                this.ThemeImages.Add(new KeyValuePair<int, List<CardImage>>(0, new List<CardImage>() { new CardImage() { Name = "car", Resource = Resources.car } }));
-                this.ThemeImages.Add(new KeyValuePair<int, List<CardImage>>(0, new List<CardImage>() { new CardImage() { Name = "monkey", Resource = Resources.monkey } }));
-                this.ThemeImages.Add(new KeyValuePair<int, List<CardImage>>(0, new List<CardImage>() { new CardImage() { Name = "tornado", Resource = Resources.tornado } }));
-                this.ThemeImages.Add(new KeyValuePair<int, List<CardImage>>(0, new List<CardImage>() { new CardImage() { Name = "tree", Resource = Resources.tree } }));
-                this.ThemeImages.Add(new KeyValuePair<int, List<CardImage>>(0, new List<CardImage>() { new CardImage() { Name = "wine", Resource = Resources.wine } }));
-            }
+            this.Theme.Add(new KeyValuePair<int, string>(0, "Animals"));
         }
 
         public void StartGame()
@@ -61,8 +70,14 @@ namespace MemoryGame
             this.PopulateDeck();
         }
 
+        public int Test()
+        {
+            return 20;
+        }
+
         public void PopulateDeck()
         {
+            //Card might not be needed anymore. Might have to refracture to use CardPictureBox since we can add custom fields/properties
             this.Deck = new List<Card>();
             this.SelectedCards = new List<CardPictureBox>();
             //Generate a memory game playing field based on game settings stored in Memory.Collumns, Memory.Rows.
@@ -85,17 +100,16 @@ namespace MemoryGame
             }
             for (int i = 0; i < (this.Rows * this.Collumns); i++)
             {
-                this.Deck.Add(new Card() { Id = i, Image = this.ThemeImages[i].Value[0].Resource });
-
-                CardPictureBox pictureBox = new CardPictureBox()
+                this.Deck.Add(new Card() { Id = i, Image = this.ThemeImages[this.SelectedTheme][i].Resource });
+                CardPictureBox card = new CardPictureBox()
                 {
                     Dock = DockStyle.Fill,
                     SizeMode = PictureBoxSizeMode.StretchImage,
                     Name = $"{i}",
-                    PairName = this.ThemeImages[i].Value[0].Name
+                    PairName = this.ThemeImages[this.SelectedTheme][i].Name
                 };
-                pictureBox.Click += this.CardClicked;
-                this.Panel.Controls.Add(pictureBox);
+                card.Click += this.CardClicked;
+                this.Panel.Controls.Add(card);
             }
         }
 
@@ -103,13 +117,27 @@ namespace MemoryGame
         {
             if (this.SelectedCards[0].PairName == this.SelectedCards[1].PairName)
             {
+                foreach (CardPictureBox card in this.SelectedCards)
+	            {
+                    card.isSolved = true;
+	            }
+                if (this.IsPlayerOnesTurn)
+                {
+                    this.Players[0].ScoreBoard.Add();
+                }
+                else
+                {
+                    this.Players[1].ScoreBoard.Add();
+                }
+
+                this.IsPlayerOnesTurn = !this.IsPlayerOnesTurn;
                 this.SelectedCards.Clear();
             }
             else
             {
-                foreach (CardPictureBox item in this.SelectedCards)
+                foreach (CardPictureBox card in this.SelectedCards)
                 {
-                    item.Image = null;
+                    card.Image = null;
                 }
                 this.SelectedCards.Clear();
             }
@@ -123,20 +151,18 @@ namespace MemoryGame
 
         public void CardClicked(object sender, System.EventArgs e)
         {
-            CardPictureBox selected = (CardPictureBox)sender;
-            if (this.GameFrozen)
-            {
-                return;
-            }
-            if (this.SelectedCards.Contains(selected))
+            //Handles what happends whenever a card/picturebox is clicked.
+            CardPictureBox selectedCard = (CardPictureBox)sender;
+            //First check all the conditions on which we want to exit early
+            if (this.GameFrozen || this.SelectedCards.Contains(selectedCard) || selectedCard.isSolved)
             {
                 return;
             }
             else
             {
-                int cardId = Convert.ToInt32(selected.Name);
-                selected.Image = this.Deck[cardId].Image;
-                this.SelectedCards.Add(selected);
+                int cardId = Convert.ToInt32(selectedCard.Name);
+                selectedCard.Image = this.Deck[cardId].Image;
+                this.SelectedCards.Add(selectedCard);
             }
 
             if (this.SelectedCards.Count == 2)
