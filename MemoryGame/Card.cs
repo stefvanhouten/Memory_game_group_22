@@ -11,6 +11,5 @@ namespace MemoryGame
     {
         public int Id { get; set; }
         public Bitmap Image { get; set; }
-        public bool isTurned { get; set; } = false;
     }
 }

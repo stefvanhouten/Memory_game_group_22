@@ -11,7 +11,7 @@ namespace MemoryGame
     public class CardPictureBox : PictureBox
     {
         public string PairName { get; set; }
-        public bool isSolved {get; set;} = false;
+        public bool IsSolved {get; set;} = false;
     }
 
     public struct CardImage
@@ -100,12 +100,19 @@ namespace MemoryGame
             }
             for (int i = 0; i < (this.Rows * this.Collumns); i++)
             {
+                /* We need to create a 'fake' deck with cards and the backgrouund image that we want to use.
+                 * There seems to be no way of hiding the PictureBox image without losing the image in the process,
+                 * For that reason we create a fictional deck called this.Deck and store our images in there.
+                 * 
+                 * When we click a PictureBox we look up the fictional Deck and then set that PictureBox background image
+                 * to the image that is provided by the fictional deck. 
+                 */
                 this.Deck.Add(new Card() { Id = i, Image = this.ThemeImages[this.SelectedTheme][i].Resource });
                 CardPictureBox card = new CardPictureBox()
                 {
                     Dock = DockStyle.Fill,
                     SizeMode = PictureBoxSizeMode.StretchImage,
-                    Name = $"{i}",
+                    Name = $"{i}", //Couuld make a property that holds an int but we need to cast it to a string later on anyway
                     PairName = this.ThemeImages[this.SelectedTheme][i].Name
                 };
                 card.Click += this.CardClicked;
@@ -115,11 +122,20 @@ namespace MemoryGame
 
         public void CheckIfMatch()
         {
+            /*  This method check if the selected card in SelectedCards list are a match. 
+             *  If it is a match flip a boolean in the PictureBox so that we know this card has previously been solved.
+             *  
+             *  Also calls the ScoreBoard.Add method to increment the score of the player that is currently playing.
+             *  We keep track of the current player with the this.IsPlayerOnesTurn bool. After a player turned two cards
+             *  this boolean is flipped.
+             *  
+             *  Lastly we clear the SelectedCards list so that we can keep on playing.
+             */
             if (this.SelectedCards[0].PairName == this.SelectedCards[1].PairName)
             {
                 foreach (CardPictureBox card in this.SelectedCards)
 	            {
-                    card.isSolved = true;
+                    card.IsSolved = true;
 	            }
                 if (this.IsPlayerOnesTurn)
                 {
@@ -131,7 +147,6 @@ namespace MemoryGame
                 }
 
                 this.IsPlayerOnesTurn = !this.IsPlayerOnesTurn;
-                this.SelectedCards.Clear();
             }
             else
             {
@@ -139,22 +154,31 @@ namespace MemoryGame
                 {
                     card.Image = null;
                 }
-                this.SelectedCards.Clear();
             }
+            this.SelectedCards.Clear();
             this.GameFrozen = false;
-        }
-
-        public void ChangeBackground(CardPictureBox item)
-        {
-            item.BackColor = Color.Red;
         }
 
         public void CardClicked(object sender, System.EventArgs e)
         {
-            //Handles what happends whenever a card/picturebox is clicked.
+            /*  Handles whatever happends when clicking on one of the PictureBoxes(cards) on the playing field.
+             *  First we have to run a couple checks to determine if we can proceed;
+             *  - We need to check if the game is frozen, this happends after clicking on a card. We need to freeze the game
+             *    because if we do not do so the player has no time to see the second card he tried to match with the first. 
+             *    So when we do not freeze the game the player has a (300)ms window to click other cards and mess up what is happening.
+             *    When the game is frozen we have to wait untill all checks are done and we regain control.
+             *  - Check if the currently clicked card is already in the this.SelectedCards list, we do not want a user to be able
+             *    to gain points for matching the card with the card he just clicked.
+             *  - If a card is solved we do not want to be able to gain points for that either. 
+             *  
+             *  If we manage to get past the checks we want to get the cardId and load the image from the virtual deck.
+             *  Then add the selected card to the list this.SelectedCards so that we know this card has been clicked this turn.
+             *  
+             *  When we have two cards in the this.SelectedCards list we want to proceed and check if they match. 
+             */
             CardPictureBox selectedCard = (CardPictureBox)sender;
             //First check all the conditions on which we want to exit early
-            if (this.GameFrozen || this.SelectedCards.Contains(selectedCard) || selectedCard.isSolved)
+            if (this.GameFrozen || this.SelectedCards.Contains(selectedCard) || selectedCard.IsSolved)
             {
                 return;
             }
@@ -168,7 +192,7 @@ namespace MemoryGame
             if (this.SelectedCards.Count == 2)
             {
                 this.GameFrozen = true;
-                Task.Delay(750).ContinueWith(x =>
+                Task.Delay(300).ContinueWith(x =>
                 {
                     this.CheckIfMatch();
                 });

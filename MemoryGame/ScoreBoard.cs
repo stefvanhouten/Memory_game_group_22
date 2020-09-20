@@ -9,8 +9,6 @@ namespace MemoryGame
     class ScoreBoard
     {
         public int Score { get; private set; } = 0;
-        public event EventHandler _updatePlayerScores;
-
 
         public ScoreBoard()
         {
