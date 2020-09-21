@@ -34,7 +34,7 @@ namespace MemoryGame
         public Bitmap CardImage { get; set; } //Custom bitmap to store the image in. PictureBox.Image cant be hidden without losing the image
     }
 
-    public struct CardImage
+    public struct CardNameAndImage
     {
         public string Name { get; set; }
         public Bitmap Resource { get; set; }
@@ -47,31 +47,30 @@ namespace MemoryGame
         private List<KeyValuePair<int, string>> Theme = new List<KeyValuePair<int, string>>();
         private int SelectedTheme { get; set; } = 0;
         private List<CardPictureBox> Deck { get; set; }
-        public HighScore HighScores { get; private set; }
-
         //Probably need to look for a way to dynamicly do this
-        private Dictionary<int, List<CardImage>> ThemeImages = new Dictionary<int, List<CardImage>>()
+        private Dictionary<int, List<CardNameAndImage>> ThemeImages = new Dictionary<int, List<CardNameAndImage>>()
         {
-            { 0, new List<CardImage>() { 
-                new CardImage() { Name = "banana", Resource = Resources.banana }, 
-                new CardImage() { Name = "book", Resource = Resources.book },
-                new CardImage() { Name = "bug", Resource = Resources.bug },
-                new CardImage() { Name = "car", Resource = Resources.car },
-                new CardImage() { Name = "monkey", Resource = Resources.monkey },
-                new CardImage() { Name = "tornado", Resource = Resources.tornado },
-                new CardImage() { Name = "tree", Resource = Resources.tree },
-                new CardImage() { Name = "wine", Resource = Resources.wine },
-                new CardImage() { Name = "banana", Resource=Resources.banana },
-                new CardImage() { Name = "book", Resource = Resources.book },
-                new CardImage() { Name = "bug", Resource = Resources.bug },
-                new CardImage() { Name = "car", Resource = Resources.car },
-                new CardImage() { Name = "monkey", Resource = Resources.monkey },
-                new CardImage() { Name = "tornado", Resource = Resources.tornado },
-                new CardImage() { Name = "tree", Resource = Resources.tree },
-                new CardImage() { Name = "wine", Resource = Resources.wine },
+            { 0, new List<CardNameAndImage>() { 
+                new CardNameAndImage() { Name = "banana", Resource = Resources.banana }, 
+                new CardNameAndImage() { Name = "book", Resource = Resources.book },
+                new CardNameAndImage() { Name = "bug", Resource = Resources.bug },
+                new CardNameAndImage() { Name = "car", Resource = Resources.car },
+                new CardNameAndImage() { Name = "monkey", Resource = Resources.monkey },
+                new CardNameAndImage() { Name = "tornado", Resource = Resources.tornado },
+                new CardNameAndImage() { Name = "tree", Resource = Resources.tree },
+                new CardNameAndImage() { Name = "wine", Resource = Resources.wine },
+                new CardNameAndImage() { Name = "banana", Resource=Resources.banana },
+                new CardNameAndImage() { Name = "book", Resource = Resources.book },
+                new CardNameAndImage() { Name = "bug", Resource = Resources.bug },
+                new CardNameAndImage() { Name = "car", Resource = Resources.car },
+                new CardNameAndImage() { Name = "monkey", Resource = Resources.monkey },
+                new CardNameAndImage() { Name = "tornado", Resource = Resources.tornado },
+                new CardNameAndImage() { Name = "tree", Resource = Resources.tree },
+                new CardNameAndImage() { Name = "wine", Resource = Resources.wine },
             } },
         };
 
+        public HighScore HighScores { get; private set; }
         public int Rows { get; private set; } = 4;
         public int Collumns { get; private set; } = 4;
         public Player[] Players { get; private set; } = new Player[2];
@@ -94,18 +93,21 @@ namespace MemoryGame
             this.PopulateDeck();
         }
 
-        private void PopulateDeck()
+        private void ConfigurateDeckStyling()
         {
-            this.Deck = new List<CardPictureBox>();
-            //Card might not be needed anymore. Might have to refracture to use CardPictureBox since we can add custom fields/properties
-            this.SelectedCards = new List<CardPictureBox>();
-            //Generate a memory game playing field based on game settings stored in Memory.Collumns, Memory.Rows.
+            /*  Handles setting up all the styling that needs to be done before a game of memory is played.  
+             *  Builds the layout based on the amount of Collumns and Rows the players have selected in the 
+             *  pre-game interface. 
+             *  
+             *  Also Removes default styles given to the column and rows, this needs to be done because it will
+             *  mess up the styles of the dynamicly generated colums and rows.
+             */
+         
             this.Panel.ColumnCount = this.Collumns;
             this.Panel.RowCount = this.Rows;
             this.Panel.CellBorderStyle = TableLayoutPanelCellBorderStyle.Inset;
             this.Panel.BackColor = Color.SlateGray;
             this.Panel.Dock = DockStyle.Fill;
-            //Remove the default styles from the panel. If we do not do this the playing field gets messed up
             this.Panel.ColumnStyles.Clear();
             this.Panel.RowStyles.Clear();
 
@@ -118,6 +120,18 @@ namespace MemoryGame
             {
                 this.Panel.ColumnStyles.Add(new ColumnStyle() { Width = 50, SizeType = SizeType.Percent });
             }
+        }
+
+        private void PopulateDeck()
+        {
+            /*  Generates the amount of cards needed based on this.Colums and this.Rows. 
+             *  Cards get assigned images based on the currently selected theme. 
+             *  Also handles randomizing the deck each time a game is played. 
+             */
+            this.ConfigurateDeckStyling();
+            this.Deck = new List<CardPictureBox>(); 
+            this.SelectedCards = new List<CardPictureBox>();
+
             for (int i = 0; i < (this.Rows * this.Collumns); i++)
             {
                 CardPictureBox card = new CardPictureBox()
@@ -131,7 +145,7 @@ namespace MemoryGame
                 card.Click += this.CardClicked;
                 this.Deck.Add(card);
             }
-            //shuffle
+            //Randomize the location of the cards in the deck
             this.Deck.Shuffle();
             foreach (CardPictureBox card in this.Deck)
             {
