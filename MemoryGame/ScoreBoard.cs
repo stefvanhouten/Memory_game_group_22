@@ -21,8 +21,16 @@ namespace MemoryGame
         {
             /* Logic for incrementing the score from the scoreboard should go here.
              * After you are done writing code summarise what this method does and replace this comment.
+             * 
+             * Methods are already attached and the score will be updated in the game if you make it work :D
              */
-            this.Score += 30;
+        }
+
+        public void Decrement()
+        {
+            /* Logic for decremeting the score from the scoreboard should go here. Score shouldn't drop below 0 points!
+             * After you are done writing code summarise what this method does and replace this comment.
+             */
         }
     }
 }

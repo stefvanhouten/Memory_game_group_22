@@ -2,16 +2,35 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Runtime.CompilerServices;
 using System.Security.Permissions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using System.Linq;
 namespace MemoryGame
 {
+    static class MyExtensions
+    {
+        public static void Shuffle<T>(this IList<T> list)
+        {
+            Random rng = new Random();
+            int n = list.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = rng.Next(n + 1);
+                T value = list[k];
+                list[k] = list[n];
+                list[n] = value;
+            }
+        }
+    }
+
     public class CardPictureBox : PictureBox
     {
         public string PairName { get; set; }
         public bool IsSolved {get; set;} = false;
+        public Bitmap CardImage { get; set; }
     }
 
     public struct CardImage
@@ -26,6 +45,8 @@ namespace MemoryGame
         private bool IsPlayerOnesTurn { get; set; } = true;
         private List<KeyValuePair<int, string>> Theme = new List<KeyValuePair<int, string>>();
         private int SelectedTheme { get; set; } = 0;
+        private List<CardPictureBox> Deck { get; set; }
+
         //Probably need to look for a way to dynamicly do this
         private Dictionary<int, List<CardImage>> ThemeImages = new Dictionary<int, List<CardImage>>()
         {
@@ -51,16 +72,15 @@ namespace MemoryGame
 
         public int Rows { get; private set; } = 4;
         public int Collumns { get; private set; } = 4;
-
         public Player[] Players { get; private set; } = new Player[2];
-
-        public List<Card> Deck { get; private set; } 
         public List<CardPictureBox> SelectedCards { get; private set; } //Holds 2 cards that currently are selected
-
         public TableLayoutPanel Panel { get; private set; }
+        public Form1 Form1 { get; set; }
 
-        public Memory(TableLayoutPanel panel)
+
+        public Memory(TableLayoutPanel panel, Form1 form1)
         {
+            this.Form1 = form1;
             this.Panel = panel;
             this.Theme.Add(new KeyValuePair<int, string>(0, "Animals"));
         }
@@ -70,21 +90,17 @@ namespace MemoryGame
             this.PopulateDeck();
         }
 
-        public int Test()
+        private void PopulateDeck()
         {
-            return 20;
-        }
-
-        public void PopulateDeck()
-        {
+            this.Deck = new List<CardPictureBox>();
             //Card might not be needed anymore. Might have to refracture to use CardPictureBox since we can add custom fields/properties
-            this.Deck = new List<Card>();
             this.SelectedCards = new List<CardPictureBox>();
             //Generate a memory game playing field based on game settings stored in Memory.Collumns, Memory.Rows.
             this.Panel.ColumnCount = this.Collumns;
             this.Panel.RowCount = this.Rows;
             this.Panel.CellBorderStyle = TableLayoutPanelCellBorderStyle.Inset;
             this.Panel.BackColor = Color.SlateGray;
+            this.Panel.Dock = DockStyle.Fill;
             //Remove the default styles from the panel. If we do not do this the playing field gets messed up
             this.Panel.ColumnStyles.Clear();
             this.Panel.RowStyles.Clear();
@@ -100,22 +116,21 @@ namespace MemoryGame
             }
             for (int i = 0; i < (this.Rows * this.Collumns); i++)
             {
-                /* We need to create a 'fake' deck with cards and the backgrouund image that we want to use.
-                 * There seems to be no way of hiding the PictureBox image without losing the image in the process,
-                 * For that reason we create a fictional deck called this.Deck and store our images in there.
-                 * 
-                 * When we click a PictureBox we look up the fictional Deck and then set that PictureBox background image
-                 * to the image that is provided by the fictional deck. 
-                 */
-                this.Deck.Add(new Card() { Id = i, Image = this.ThemeImages[this.SelectedTheme][i].Resource });
                 CardPictureBox card = new CardPictureBox()
                 {
                     Dock = DockStyle.Fill,
                     SizeMode = PictureBoxSizeMode.StretchImage,
                     Name = $"{i}", //Couuld make a property that holds an int but we need to cast it to a string later on anyway
-                    PairName = this.ThemeImages[this.SelectedTheme][i].Name
+                    PairName = this.ThemeImages[this.SelectedTheme][i].Name,
+                    CardImage = this.ThemeImages[this.SelectedTheme][i].Resource
                 };
                 card.Click += this.CardClicked;
+                this.Deck.Add(card);
+            }
+            //shuffle
+            this.Deck.Shuffle();
+            foreach (CardPictureBox card in this.Deck)
+            {
                 this.Panel.Controls.Add(card);
             }
         }
@@ -138,23 +153,28 @@ namespace MemoryGame
                     card.IsSolved = true;
 	            }
                 if (this.IsPlayerOnesTurn)
-                {
                     this.Players[0].ScoreBoard.Add();
-                }
                 else
-                {
                     this.Players[1].ScoreBoard.Add();
-                }
-
-                this.IsPlayerOnesTurn = !this.IsPlayerOnesTurn;
             }
             else
             {
+                if (this.IsPlayerOnesTurn)
+                    this.Players[0].ScoreBoard.Decrement();
+                else
+                    this.Players[1].ScoreBoard.Decrement();
+
                 foreach (CardPictureBox card in this.SelectedCards)
                 {
                     card.Image = null;
                 }
             }
+            this.Form1.UpdateScore($"" +
+                    $"{this.Players[0].Name} : {this.Players[0].ScoreBoard.Score.ToString()}",
+                    $"{this.Players[1].Name} : {this.Players[1].ScoreBoard.Score.ToString()}"
+                    );
+            this.Form1.UpdateCurrentPlayer(!this.IsPlayerOnesTurn ? $"Current player: {this.Players[0].Name}" : $"Current player: {this.Players[1].Name}");
+            this.IsPlayerOnesTurn = !this.IsPlayerOnesTurn;
             this.SelectedCards.Clear();
             this.GameFrozen = false;
         }
@@ -185,7 +205,7 @@ namespace MemoryGame
             else
             {
                 int cardId = Convert.ToInt32(selectedCard.Name);
-                selectedCard.Image = this.Deck[cardId].Image;
+                selectedCard.Image = selectedCard.CardImage;
                 this.SelectedCards.Add(selectedCard);
             }
 
