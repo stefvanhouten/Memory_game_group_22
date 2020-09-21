@@ -17,7 +17,7 @@ namespace MemoryGame
              */
         }
 
-        public void Add()
+        public void IncreaseScore()
         {
             /* Logic for incrementing the score from the scoreboard should go here.
              * After you are done writing code summarise what this method does and replace this comment.
@@ -26,7 +26,7 @@ namespace MemoryGame
              */
         }
 
-        public void Decrement()
+        public void DecreaseScore()
         {
             /* Logic for decremeting the score from the scoreboard should go here. Score shouldn't drop below 0 points!
              * After you are done writing code summarise what this method does and replace this comment.
@@ -34,3 +34,4 @@ namespace MemoryGame
         }
     }
 }
+

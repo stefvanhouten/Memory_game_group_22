@@ -30,7 +30,8 @@ namespace MemoryGame
     {
         public string PairName { get; set; }
         public bool IsSolved {get; set;} = false;
-        public Bitmap CardImage { get; set; }
+        public bool HasBeenVisible { get; set; } = false;
+        public Bitmap CardImage { get; set; } //Custom bitmap to store the image in. PictureBox.Image cant be hidden without losing the image
     }
 
     public struct CardImage
@@ -41,11 +42,12 @@ namespace MemoryGame
 
     internal class Memory
     {
-        private bool GameFrozen { get; set; } = false;
+        private bool GameIsFrozen { get; set; } = false;
         private bool IsPlayerOnesTurn { get; set; } = true;
         private List<KeyValuePair<int, string>> Theme = new List<KeyValuePair<int, string>>();
         private int SelectedTheme { get; set; } = 0;
         private List<CardPictureBox> Deck { get; set; }
+        public HighScore HighScores { get; private set; }
 
         //Probably need to look for a way to dynamicly do this
         private Dictionary<int, List<CardImage>> ThemeImages = new Dictionary<int, List<CardImage>>()
@@ -82,6 +84,8 @@ namespace MemoryGame
         {
             this.Form1 = form1;
             this.Panel = panel;
+
+            this.HighScores = new HighScore();
             this.Theme.Add(new KeyValuePair<int, string>(0, "Animals"));
         }
 
@@ -150,33 +154,42 @@ namespace MemoryGame
             {
                 foreach (CardPictureBox card in this.SelectedCards)
 	            {
+                    //When we have a matching pair mark them as solved to take them out of the game
                     card.IsSolved = true;
 	            }
+                //Increment the score based on which player was playing
                 if (this.IsPlayerOnesTurn)
-                    this.Players[0].ScoreBoard.Add();
+                    this.Players[0].ScoreBoard.IncreaseScore();
                 else
-                    this.Players[1].ScoreBoard.Add();
+                    this.Players[1].ScoreBoard.IncreaseScore();
             }
             else
             {
-                if (this.IsPlayerOnesTurn)
-                    this.Players[0].ScoreBoard.Decrement();
-                else
-                    this.Players[1].ScoreBoard.Decrement();
-
+                //If there was no match and the card has previously been turned we want to punish the player
+                //Check if any of the Cards in the this.SelectedCards list have the boolean HasBeenVisible flipped
+                if(this.SelectedCards.FindIndex(c => c.HasBeenVisible == true) >= 0)
+                {
+                    if (this.IsPlayerOnesTurn)
+                        this.Players[0].ScoreBoard.DecreaseScore();
+                    else
+                        this.Players[1].ScoreBoard.DecreaseScore();
+                }
                 foreach (CardPictureBox card in this.SelectedCards)
                 {
+                    //Reset the cards to show no image and set the property to ensure that we know the card has been flipped before
                     card.Image = null;
+                    card.HasBeenVisible = true;
                 }
             }
+            //Update the scoreboard for both players
             this.Form1.UpdateScore($"" +
-                    $"{this.Players[0].Name} : {this.Players[0].ScoreBoard.Score.ToString()}",
-                    $"{this.Players[1].Name} : {this.Players[1].ScoreBoard.Score.ToString()}"
+                    $"{this.Players[0].Name} : {this.Players[0].ScoreBoard.Score}",
+                    $"{this.Players[1].Name} : {this.Players[1].ScoreBoard.Score}"
                     );
             this.Form1.UpdateCurrentPlayer(!this.IsPlayerOnesTurn ? $"Current player: {this.Players[0].Name}" : $"Current player: {this.Players[1].Name}");
             this.IsPlayerOnesTurn = !this.IsPlayerOnesTurn;
             this.SelectedCards.Clear();
-            this.GameFrozen = false;
+            this.GameIsFrozen = false;
         }
 
         public void CardClicked(object sender, System.EventArgs e)
@@ -191,27 +204,26 @@ namespace MemoryGame
              *    to gain points for matching the card with the card he just clicked.
              *  - If a card is solved we do not want to be able to gain points for that either. 
              *  
-             *  If we manage to get past the checks we want to get the cardId and load the image from the virtual deck.
-             *  Then add the selected card to the list this.SelectedCards so that we know this card has been clicked this turn.
-             *  
              *  When we have two cards in the this.SelectedCards list we want to proceed and check if they match. 
              */
             CardPictureBox selectedCard = (CardPictureBox)sender;
             //First check all the conditions on which we want to exit early
-            if (this.GameFrozen || this.SelectedCards.Contains(selectedCard) || selectedCard.IsSolved)
+            if (this.GameIsFrozen || this.SelectedCards.Contains(selectedCard) || selectedCard.IsSolved)
             {
                 return;
             }
             else
             {
-                int cardId = Convert.ToInt32(selectedCard.Name);
-                selectedCard.Image = selectedCard.CardImage;
+                //Show the image that we stored in CardImage
+                selectedCard.Image = selectedCard.CardImage; 
                 this.SelectedCards.Add(selectedCard);
             }
-
+            //Only when 2 cards have been selected we want to freeze the game and check if they match
             if (this.SelectedCards.Count == 2)
             {
-                this.GameFrozen = true;
+                this.GameIsFrozen = true;
+                //Delay checking if they match with (300)ms. This is so that the user has a few ms to see what image they flipped
+                //when they do not match. Without this its pretty much instant and the user wont be able to see what card they matched
                 Task.Delay(300).ContinueWith(x =>
                 {
                     this.CheckIfMatch();

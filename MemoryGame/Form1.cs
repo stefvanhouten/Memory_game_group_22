@@ -36,7 +36,10 @@ namespace MemoryGame
 
         public void UpdateScore(string playerOneLabel, string playerTwoLabel)
         {
-            /*  InvokeRequired required compares the thread ID of the
+            /*  We need to use some magic to make this work. C# Won't allow changing the value outside of the UI thread.
+             *  for this reason we need to make use of deligates.
+             *  
+             *  InvokeRequired required compares the thread ID of the
              *  calling thread to the thread ID of the creating thread.
              *  If these threads are different, it returns true.
              */
@@ -54,6 +57,7 @@ namespace MemoryGame
 
         public void UpdateCurrentPlayer(string currentPlayer)
         {
+            //Update the value of the label that shows which player is currently playing. 
             if (this.label5.InvokeRequired)
             {
                 SetCurrentPlayerCallback d = new SetCurrentPlayerCallback(UpdateCurrentPlayer);
@@ -94,12 +98,12 @@ namespace MemoryGame
             tabControl1.SelectedTab = tabMemory;
         }
 
+        //<-----------------------------------------------------------NAVIGATION----------------------------------------------------------->
         private void ButtonStartGame_Click(object sender, EventArgs e)
         {
             tabControl1.SelectedTab = tabPreGame;
         }
 
-        //NAVIGATION 
         private void ButtonHighScores_Click(object sender, EventArgs e)
         {
             tabControl1.SelectedTab = tabHighScores;
@@ -124,6 +128,7 @@ namespace MemoryGame
             tabControl1.SelectedTab = tabHome;
 
         }
+        //<--------------------------------------------------------END NAVIGATION--------------------------------------------------------->
 
     }
 }
