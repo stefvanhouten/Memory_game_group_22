@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -13,9 +14,10 @@ namespace MemoryGame
     public partial class Form1 : Form
     {
         readonly Memory game;
-        delegate void SetPlayerScoreCallback(string playerOneLabel, string playerTwoLabel);
-        delegate void SetCurrentPlayerCallback(string currentPlayer);
-
+        public delegate void SetPlayerScoreCallback(string playerOneLabel, string playerTwoLabel);
+        public delegate void SetCurrentPlayerCallback(string currentPlayer);
+        public delegate void RedirectToHighScoresCallback();
+        public delegate void ClearPanelsCallback();
 
         public Form1()
         {
@@ -34,15 +36,17 @@ namespace MemoryGame
             tabControl1.SizeMode = TabSizeMode.Fixed;
         }
 
+        /// <summary>
+        /// We need to use some magic to make this work. C# Won't allow changing the value outside of the UI thread.
+        /// for this reason we need to make use of deligates.
+        /// InvokeRequired required compares the thread ID of the
+        /// calling thread to the thread ID of the creating thread.
+        /// If these threads are different, it returns true.
+        /// </summary>
+        /// <param name="playerOneLabel"></param>
+        /// <param name="playerTwoLabel"></param>
         public void UpdateScore(string playerOneLabel, string playerTwoLabel)
         {
-            /*  We need to use some magic to make this work. C# Won't allow changing the value outside of the UI thread.
-             *  for this reason we need to make use of deligates.
-             *  
-             *  InvokeRequired required compares the thread ID of the
-             *  calling thread to the thread ID of the creating thread.
-             *  If these threads are different, it returns true.
-             */
             if (this.label3.InvokeRequired || this.label4.InvokeRequired || this.label5.InvokeRequired)
             {
                 SetPlayerScoreCallback d = new SetPlayerScoreCallback(UpdateScore);
@@ -69,18 +73,43 @@ namespace MemoryGame
             }
         }
 
+        public void RedirectToHighScores()
+        {
+            if (this.tabControl1.InvokeRequired)
+            {
+                RedirectToHighScoresCallback redirect = new RedirectToHighScoresCallback(RedirectToHighScores);
+                this.Invoke(redirect);
+            }
+            else
+            {
+                this.tabControl1.SelectedTab = tabHighScores;
+            }
+        }
+
+        public void ClearPanels()
+        {
+            if (this.tableLayoutPanel1.InvokeRequired)
+            {
+                ClearPanelsCallback clear = new ClearPanelsCallback(ClearPanels);
+            }
+            else
+            {
+                this.tableLayoutPanel1.Controls.Clear();
+            }
+        }
+        /// <summary>
+        /// Validates that two player names have been provided. 
+        /// If so create two new instances of Player and add them to the Memory.Players array.
+        /// Personalize the memory game playing field by changing the labels to the player names.
+        /// Call for the memory class to start the game, this will create a playing field.
+        /// After this is done we switch to the playing field.
+        /// Raises: 
+        ///     MessageBox: MessageBox.Show is called whenever user fails to provide two player names
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonStartMemoryGame_Click(object sender, EventArgs e)
         {
-            /* Validates that two player names have been provided. 
-             * If so create two new instances of Player and add them to the Memory.Players array.
-             * Personalize the memory game playing field by changing the labels to the player names. 
-             * 
-             * Call for the memory class to start the game, this will create a playing field. 
-             * After this is done we switch to the playing field.
-             * 
-             * Raises: 
-             *        MessageBox: MessageBox.Show is called whenever user fails to provide two player names
-             */
             string playerOne = textBox1.Text;
             string playerTwo = textBox2.Text;
             if(String.IsNullOrEmpty(playerOne) || String.IsNullOrEmpty(playerTwo))
@@ -99,6 +128,7 @@ namespace MemoryGame
         }
 
         //<-----------------------------------------------------------NAVIGATION----------------------------------------------------------->
+   
         private void ButtonStartGame_Click(object sender, EventArgs e)
         {
             tabControl1.SelectedTab = tabPreGame;

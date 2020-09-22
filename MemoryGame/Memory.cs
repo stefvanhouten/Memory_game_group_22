@@ -2,44 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Runtime.CompilerServices;
-using System.Security.Permissions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Linq;
+
 namespace MemoryGame
 {
-    static class MyExtensions
-    {
-        public static void Shuffle<T>(this IList<T> list)
-        {
-            Random rng = new Random();
-            int n = list.Count;
-            while (n > 1)
-            {
-                n--;
-                int k = rng.Next(n + 1);
-                T value = list[k];
-                list[k] = list[n];
-                list[n] = value;
-            }
-        }
-    }
-
-    public class CardPictureBox : PictureBox
-    {
-        public string PairName { get; set; }
-        public bool IsSolved {get; set;} = false;
-        public bool HasBeenVisible { get; set; } = false;
-        public Bitmap CardImage { get; set; } //Custom bitmap to store the image in. PictureBox.Image cant be hidden without losing the image
-    }
-
-    public struct CardNameAndImage
-    {
-        public string Name { get; set; }
-        public Bitmap Resource { get; set; }
-    }
-
     internal class Memory
     {
         private bool GameIsFrozen { get; set; } = false;
@@ -93,15 +60,16 @@ namespace MemoryGame
             this.PopulateDeck();
         }
 
+        ///  <summary> 
+        ///  Handles setting up all the styling that needs to be done before a game of memory is played.  
+        ///  Builds the layout based on the amount of Collumns and Rows the players have selected in the 
+        ///  pre-game interface. 
+        ///  
+        ///  Also Removes default styles given to the column and rows, this needs to be done because it will
+        ///  mess up the styles of the dynamicly generated colums and rows.
+        ///  </summary>
         private void ConfigurateDeckStyling()
         {
-            /*  Handles setting up all the styling that needs to be done before a game of memory is played.  
-             *  Builds the layout based on the amount of Collumns and Rows the players have selected in the 
-             *  pre-game interface. 
-             *  
-             *  Also Removes default styles given to the column and rows, this needs to be done because it will
-             *  mess up the styles of the dynamicly generated colums and rows.
-             */
          
             this.Panel.ColumnCount = this.Collumns;
             this.Panel.RowCount = this.Rows;
@@ -122,12 +90,25 @@ namespace MemoryGame
             }
         }
 
+        public void EndGame()
+        {
+            //Redirect to HighScores page
+            foreach (Player player in this.Players)
+            {
+                this.HighScores.AddToHighScores(player);
+            }
+            this.Deck.Clear();
+            this.SelectedCards.Clear();
+            this.Form1.ClearPanels();
+            this.Form1.RedirectToHighScores();
+        }
+        /// <summary>
+        /// Generates the amount of cards needed based on this.Colums and this.Rows.
+        /// Cards get assigned images based on the currently selected theme. 
+        /// Also handles randomizing the deck each time a game is played. 
+        /// </summary>
         private void PopulateDeck()
         {
-            /*  Generates the amount of cards needed based on this.Colums and this.Rows. 
-             *  Cards get assigned images based on the currently selected theme. 
-             *  Also handles randomizing the deck each time a game is played. 
-             */
             this.ConfigurateDeckStyling();
             this.Deck = new List<CardPictureBox>(); 
             this.SelectedCards = new List<CardPictureBox>();
@@ -152,18 +133,16 @@ namespace MemoryGame
                 this.Panel.Controls.Add(card);
             }
         }
-
+        /// <summary>
+        /// This method check if the selected card in SelectedCards list are a match. 
+        /// If it is a match flip a boolean in the PictureBox so that we know this card has previously been solved.
+        /// Also calls the ScoreBoard.Add method to increment the score of the player that is currently playing.
+        /// We keep track of the current player with the this.IsPlayerOnesTurn bool. After a player turned two cards
+        /// this boolean is flipped.
+        /// Lastly we clear the SelectedCards list so that we can keep on playing.
+        /// </summary>
         public void CheckIfMatch()
         {
-            /*  This method check if the selected card in SelectedCards list are a match. 
-             *  If it is a match flip a boolean in the PictureBox so that we know this card has previously been solved.
-             *  
-             *  Also calls the ScoreBoard.Add method to increment the score of the player that is currently playing.
-             *  We keep track of the current player with the this.IsPlayerOnesTurn bool. After a player turned two cards
-             *  this boolean is flipped.
-             *  
-             *  Lastly we clear the SelectedCards list so that we can keep on playing.
-             */
             if (this.SelectedCards[0].PairName == this.SelectedCards[1].PairName)
             {
                 foreach (CardPictureBox card in this.SelectedCards)
@@ -204,22 +183,29 @@ namespace MemoryGame
             this.IsPlayerOnesTurn = !this.IsPlayerOnesTurn;
             this.SelectedCards.Clear();
             this.GameIsFrozen = false;
+            //Check if all cards are solved
+            if (this.Deck.FindAll(c => c.IsSolved == false).Count == 0)
+            {
+                this.EndGame();
+            }
         }
 
+        /// <summary>
+        /// Handles whatever happends when clicking on one of the PictureBoxes(cards) on the playing field.
+        /// First we have to run a couple checks to determine if we can proceed;
+        /// - We need to check if the game is frozen, this happends after clicking on a card. We need to freeze the game
+        ///   because if we do not do so the player has no time to see the second card he tried to match with the first.
+        ///   So when we do not freeze the game the player has a (300)ms window to click other cards and mess up what is happenin
+        /// - Check if the currently clicked card is already in the this.SelectedCards list, we do not want a user to be able
+        ///   to gain points for matching the card with the card he just clicked.
+        /// - If a card is solved we do not want to be able to gain points for that either. 
+        /// 
+        /// When we have two cards in the this.SelectedCards list we want to proceed and check if they match.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void CardClicked(object sender, System.EventArgs e)
         {
-            /*  Handles whatever happends when clicking on one of the PictureBoxes(cards) on the playing field.
-             *  First we have to run a couple checks to determine if we can proceed;
-             *  - We need to check if the game is frozen, this happends after clicking on a card. We need to freeze the game
-             *    because if we do not do so the player has no time to see the second card he tried to match with the first. 
-             *    So when we do not freeze the game the player has a (300)ms window to click other cards and mess up what is happening.
-             *    When the game is frozen we have to wait untill all checks are done and we regain control.
-             *  - Check if the currently clicked card is already in the this.SelectedCards list, we do not want a user to be able
-             *    to gain points for matching the card with the card he just clicked.
-             *  - If a card is solved we do not want to be able to gain points for that either. 
-             *  
-             *  When we have two cards in the this.SelectedCards list we want to proceed and check if they match. 
-             */
             CardPictureBox selectedCard = (CardPictureBox)sender;
             //First check all the conditions on which we want to exit early
             if (this.GameIsFrozen || this.SelectedCards.Contains(selectedCard) || selectedCard.IsSolved)
