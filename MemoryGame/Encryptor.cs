@@ -6,13 +6,23 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Meemoree.scope
+namespace Security
 {
     class Encryptor
     {
-        static readonly string Password = "ImagineUsingAnActualPasswordOMEGALUL";
+        /*
+         * "generate" a password
+         */
+        static readonly string Password = "RandomgEneraTeDsTriNg";
+        /*
+         * Salt the password
+         */
         static readonly string Salt     = "PrettySalty";
-        static readonly string VI       = "@5B2C6G2s5H2F1p0";
+        /*
+         *
+         */
+        static readonly string IV       = "@5B2C6G2s5H2F1p0";
+
         public string Encrypt(string input)
         {
             byte[] encryptedText;
@@ -23,8 +33,8 @@ namespace Meemoree.scope
             byte[] Key                  = new Rfc2898DeriveBytes(Password, Encoding.ASCII.GetBytes(Salt)).GetBytes(256 / 8);
             //Creates the key well be using for the actual encryptor. Which it'll use to encrypt and decrypt data
             var encryptorkey            = new RijndaelManaged() { Mode = CipherMode.CBC, Padding = PaddingMode.Zeros };
-            //Sets the actual encryptor with the key and VI
-            var encryptor               = encryptorkey.CreateEncryptor(Key, Encoding.ASCII.GetBytes(VI));
+            //Sets the actual encryptor with the key and IV
+            var encryptor               = encryptorkey.CreateEncryptor(Key, Encoding.ASCII.GetBytes(IV));
             
             //Opens a new memoryStream
             using (var memStream        = new MemoryStream())
@@ -57,7 +67,7 @@ namespace Meemoree.scope
             byte[] KeyBytes         = new Rfc2898DeriveBytes(Password, Encoding.ASCII.GetBytes(Salt)).GetBytes(256 / 8);
             var RijndaelManaged     = new RijndaelManaged() { Mode = CipherMode.CBC, Padding = PaddingMode.None };
             //We use the same generation parameters to generate the same encryptor (decryptor)
-            var decryptor           = RijndaelManaged.CreateDecryptor(KeyBytes, Encoding.ASCII.GetBytes(VI));
+            var decryptor           = RijndaelManaged.CreateDecryptor(KeyBytes, Encoding.ASCII.GetBytes(IV));
             //We set a new memorystream with the cipher in it
             var memoryStream        = new MemoryStream(cipherBytes);
             //We set a new cryptoStream with the memoreyStream and decryptor in it (the actual decoding also happends here)
