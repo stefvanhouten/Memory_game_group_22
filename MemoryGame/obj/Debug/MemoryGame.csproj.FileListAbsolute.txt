@@ -8,3 +8,13 @@ D:\devel\Memory_game_group_22\MemoryGame\obj\Debug\MemoryGame.csproj.GenerateRes
 D:\devel\Memory_game_group_22\MemoryGame\obj\Debug\MemoryGame.csproj.CoreCompileInputs.cache
 D:\devel\Memory_game_group_22\MemoryGame\obj\Debug\MemoryGame.exe
 D:\devel\Memory_game_group_22\MemoryGame\obj\Debug\MemoryGame.pdb
+C:\Users\vbox\Documents\Memory_game_group_22\MemoryGame\bin\Debug\MemoryGame.exe.config
+C:\Users\vbox\Documents\Memory_game_group_22\MemoryGame\bin\Debug\MemoryGame.exe
+C:\Users\vbox\Documents\Memory_game_group_22\MemoryGame\bin\Debug\MemoryGame.pdb
+C:\Users\vbox\Documents\Memory_game_group_22\MemoryGame\obj\Debug\MemoryGame.csprojAssemblyReference.cache
+C:\Users\vbox\Documents\Memory_game_group_22\MemoryGame\obj\Debug\MemoryGame.Form1.resources
+C:\Users\vbox\Documents\Memory_game_group_22\MemoryGame\obj\Debug\MemoryGame.Properties.Resources.resources
+C:\Users\vbox\Documents\Memory_game_group_22\MemoryGame\obj\Debug\MemoryGame.csproj.GenerateResource.cache
+C:\Users\vbox\Documents\Memory_game_group_22\MemoryGame\obj\Debug\MemoryGame.csproj.CoreCompileInputs.cache
+C:\Users\vbox\Documents\Memory_game_group_22\MemoryGame\obj\Debug\MemoryGame.exe
+C:\Users\vbox\Documents\Memory_game_group_22\MemoryGame\obj\Debug\MemoryGame.pdb
