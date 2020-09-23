@@ -53,9 +53,9 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tabMemory = new System.Windows.Forms.TabPage();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.CurrentPlayerPlayingLabel = new System.Windows.Forms.Label();
+            this.PlayerTwoScoreLabel = new System.Windows.Forms.Label();
+            this.PlayerOneScoreLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tabHighScores.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -302,9 +302,9 @@
             // 
             // tabMemory
             // 
-            this.tabMemory.Controls.Add(this.label5);
-            this.tabMemory.Controls.Add(this.label4);
-            this.tabMemory.Controls.Add(this.label3);
+            this.tabMemory.Controls.Add(this.CurrentPlayerPlayingLabel);
+            this.tabMemory.Controls.Add(this.PlayerTwoScoreLabel);
+            this.tabMemory.Controls.Add(this.PlayerOneScoreLabel);
             this.tabMemory.Controls.Add(this.tableLayoutPanel1);
             this.tabMemory.Location = new System.Drawing.Point(4, 22);
             this.tabMemory.Name = "tabMemory";
@@ -313,35 +313,35 @@
             this.tabMemory.Text = "Memory";
             this.tabMemory.UseVisualStyleBackColor = true;
             // 
-            // label5
+            // CurrentPlayerPlayingLabel
             // 
-            this.label5.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(295, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(35, 13);
-            this.label5.TabIndex = 2;
-            this.label5.Text = "label5";
+            this.CurrentPlayerPlayingLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.CurrentPlayerPlayingLabel.AutoSize = true;
+            this.CurrentPlayerPlayingLabel.Location = new System.Drawing.Point(295, 0);
+            this.CurrentPlayerPlayingLabel.Name = "CurrentPlayerPlayingLabel";
+            this.CurrentPlayerPlayingLabel.Size = new System.Drawing.Size(35, 13);
+            this.CurrentPlayerPlayingLabel.TabIndex = 2;
+            this.CurrentPlayerPlayingLabel.Text = "label5";
             // 
-            // label4
+            // PlayerTwoScoreLabel
             // 
-            this.label4.AutoSize = true;
-            this.label4.Dock = System.Windows.Forms.DockStyle.Right;
-            this.label4.Location = new System.Drawing.Point(540, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(113, 13);
-            this.label4.TabIndex = 1;
-            this.label4.Text = "[PLAYER 2]: [SCORE]";
+            this.PlayerTwoScoreLabel.AutoSize = true;
+            this.PlayerTwoScoreLabel.Dock = System.Windows.Forms.DockStyle.Right;
+            this.PlayerTwoScoreLabel.Location = new System.Drawing.Point(540, 0);
+            this.PlayerTwoScoreLabel.Name = "PlayerTwoScoreLabel";
+            this.PlayerTwoScoreLabel.Size = new System.Drawing.Size(113, 13);
+            this.PlayerTwoScoreLabel.TabIndex = 1;
+            this.PlayerTwoScoreLabel.Text = "[PLAYER 2]: [SCORE]";
             // 
-            // label3
+            // PlayerOneScoreLabel
             // 
-            this.label3.AutoSize = true;
-            this.label3.Dock = System.Windows.Forms.DockStyle.Left;
-            this.label3.Location = new System.Drawing.Point(0, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(113, 13);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "[PLAYER 1]: [SCORE]";
+            this.PlayerOneScoreLabel.AutoSize = true;
+            this.PlayerOneScoreLabel.Dock = System.Windows.Forms.DockStyle.Left;
+            this.PlayerOneScoreLabel.Location = new System.Drawing.Point(0, 0);
+            this.PlayerOneScoreLabel.Name = "PlayerOneScoreLabel";
+            this.PlayerOneScoreLabel.Size = new System.Drawing.Size(113, 13);
+            this.PlayerOneScoreLabel.TabIndex = 0;
+            this.PlayerOneScoreLabel.Text = "[PLAYER 1]: [SCORE]";
             // 
             // tableLayoutPanel1
             // 
@@ -412,9 +412,9 @@
         private System.Windows.Forms.Button buttonStartMemoryGame;
         private System.Windows.Forms.Button buttonPreGameHome;
         private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label PlayerTwoScoreLabel;
+        private System.Windows.Forms.Label PlayerOneScoreLabel;
+        private System.Windows.Forms.Label CurrentPlayerPlayingLabel;
     }
 }
 

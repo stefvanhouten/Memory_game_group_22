@@ -1,5 +1,4 @@
 ﻿using MemoryGame.Properties;
-using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Threading.Tasks;
@@ -70,7 +69,6 @@ namespace MemoryGame
         ///  </summary>
         private void ConfigurateDeckStyling()
         {
-         
             this.Panel.ColumnCount = this.Collumns;
             this.Panel.RowCount = this.Rows;
             this.Panel.CellBorderStyle = TableLayoutPanelCellBorderStyle.Inset;
@@ -90,18 +88,20 @@ namespace MemoryGame
             }
         }
 
+        /// <summary>
+        /// Ends the current memory game and redirects to highscores page.
+        /// Calls the HighScores.AddToHighScores method to add the previously played game to the highscores
+        /// </summary>
         public void EndGame()
         {
-            //Redirect to HighScores page
             foreach (Player player in this.Players)
             {
                 this.HighScores.AddToHighScores(player);
             }
-            this.Deck.Clear();
-            this.SelectedCards.Clear();
-            this.Form1.ClearPanels();
             this.Form1.RedirectToHighScores();
+            this.Form1.ClearPanels();
         }
+
         /// <summary>
         /// Generates the amount of cards needed based on this.Colums and this.Rows.
         /// Cards get assigned images based on the currently selected theme. 
@@ -127,7 +127,7 @@ namespace MemoryGame
                 this.Deck.Add(card);
             }
             //Randomize the location of the cards in the deck
-            this.Deck.Shuffle();
+            //this.Deck.Shuffle();
             foreach (CardPictureBox card in this.Deck)
             {
                 this.Panel.Controls.Add(card);

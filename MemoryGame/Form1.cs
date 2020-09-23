@@ -47,29 +47,29 @@ namespace MemoryGame
         /// <param name="playerTwoLabel"></param>
         public void UpdateScore(string playerOneLabel, string playerTwoLabel)
         {
-            if (this.label3.InvokeRequired || this.label4.InvokeRequired || this.label5.InvokeRequired)
+            if (this.PlayerOneScoreLabel.InvokeRequired || this.PlayerTwoScoreLabel.InvokeRequired || this.CurrentPlayerPlayingLabel.InvokeRequired)
             {
                 SetPlayerScoreCallback d = new SetPlayerScoreCallback(UpdateScore);
                 this.Invoke(d, new object[] { playerOneLabel, playerTwoLabel });
             }
             else
             {
-                this.label3.Text = playerOneLabel;
-                this.label4.Text = playerTwoLabel;
+                this.PlayerOneScoreLabel.Text = playerOneLabel;
+                this.PlayerTwoScoreLabel.Text = playerTwoLabel;
             }
         }
 
         public void UpdateCurrentPlayer(string currentPlayer)
         {
             //Update the value of the label that shows which player is currently playing. 
-            if (this.label5.InvokeRequired)
+            if (this.CurrentPlayerPlayingLabel.InvokeRequired)
             {
                 SetCurrentPlayerCallback d = new SetCurrentPlayerCallback(UpdateCurrentPlayer);
                 this.Invoke(d, new object[] { currentPlayer });
             }
             else
             {
-                this.label5.Text = currentPlayer;
+                this.CurrentPlayerPlayingLabel.Text = currentPlayer;
             }
         }
 
@@ -91,12 +91,14 @@ namespace MemoryGame
             if (this.tableLayoutPanel1.InvokeRequired)
             {
                 ClearPanelsCallback clear = new ClearPanelsCallback(ClearPanels);
+                this.Invoke(clear);
             }
             else
             {
                 this.tableLayoutPanel1.Controls.Clear();
             }
         }
+
         /// <summary>
         /// Validates that two player names have been provided. 
         /// If so create two new instances of Player and add them to the Memory.Players array.
@@ -120,9 +122,9 @@ namespace MemoryGame
             //Should probably make a method for adding new players to the game. This can be exploited
             this.game.Players[0] = new Player(playerOne);
             this.game.Players[1] = new Player(playerTwo);
-            label3.Text = $"{this.game.Players[0].Name} : {this.game.Players[0].ScoreBoard.Score}";
-            label4.Text = $"{this.game.Players[1].Name} : {this.game.Players[1].ScoreBoard.Score}";
-            label5.Text = $"Current player: {this.game.Players[0].Name}";
+            PlayerOneScoreLabel.Text = $"{this.game.Players[0].Name} : {this.game.Players[0].ScoreBoard.Score}";
+            PlayerTwoScoreLabel.Text = $"{this.game.Players[1].Name} : {this.game.Players[1].ScoreBoard.Score}";
+            CurrentPlayerPlayingLabel.Text = $"Current player: {this.game.Players[0].Name}";
             this.game.StartGame();
             tabControl1.SelectedTab = tabMemory;
         }
