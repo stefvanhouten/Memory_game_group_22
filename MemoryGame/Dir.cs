@@ -1,19 +1,29 @@
 ﻿using System;
+using System.IO;
 
 /*
  * The class is redundant for the memory game, but can be expanded for further use
  */
 public class Dir
 {
+    /*
+     * Create DirectoryInfo object
+     * It contains all the properties regarding the directory
+     */
     public DirectoryInfo dirInfo { get; private set; }
-    private string path;
 
+    /*
+     * Load a new DirectoryInfo object and assign it to dirInfo property
+     */
     public Dir(string path)
     {
-        this.path = path;
         this.dirInfo = new DirectoryInfo(path);
     }
 
+    /*
+     * Create the directory if exists
+     * else ignore and do not create
+     */
     public void Create()
     {
         if (!this.DirExists())
@@ -22,17 +32,26 @@ public class Dir
         }
     }
 
-    //make this a method in the interface
-    //so file and directories can be checked for existance 
+    /*
+     * Check whether the directory exists
+     */
     public bool DirExists()
     {
-        if (this.dirInfo.Exists)
-        {
-            return true;
-        }
-        return false;
+        return this.dirInfo.Exists;
     }
 
+    /*
+     * Get the full directory path
+     */
+    public string GetDirPath()
+    {
+        return this.dirInfo.FullName;
+    }
+
+    /*
+     * Delete directory
+     * forceDelete will delete the content of the directory as well
+     */
     public void Delete(bool forceDelete = false)
     {
         switch (forceDelete)
