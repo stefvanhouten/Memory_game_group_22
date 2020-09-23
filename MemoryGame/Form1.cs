@@ -18,6 +18,7 @@ namespace MemoryGame
         public delegate void SetCurrentPlayerCallback(string currentPlayer);
         public delegate void RedirectToHighScoresCallback();
         public delegate void ClearPanelsCallback();
+        private CheckBox lastChecked;
 
         public Form1()
         {
@@ -34,6 +35,25 @@ namespace MemoryGame
             tabControl1.Appearance = TabAppearance.FlatButtons;
             tabControl1.ItemSize = new Size(0, 1);
             tabControl1.SizeMode = TabSizeMode.Fixed;
+
+            CheckBox box;
+            int i = 0;
+            foreach(KeyValuePair<int, string> theme in this.game.Theme)
+            {
+                box = new CheckBox();
+                if(i == 0)
+                {
+                    box.Checked = true;
+                    this.lastChecked = box;
+                }
+                box.Name = $"{theme.Key}";
+                box.Text = theme.Value;
+                box.AutoSize = true;
+                box.Location = new Point(10, i * 20 + 20);
+                box.Click += CheckBox_Click;
+                tabThemeSelection.Controls.Add(box);
+                i++;
+            }
         }
 
         /// <summary>
@@ -99,6 +119,20 @@ namespace MemoryGame
             }
         }
 
+
+        private void CheckBox_Click(object sender, EventArgs e)
+        {
+            CheckBox activeCheckBox = sender as CheckBox;
+            if (activeCheckBox != lastChecked && lastChecked != null)
+                lastChecked.Checked = false;
+            else
+                lastChecked.Checked = true;
+
+            lastChecked = activeCheckBox.Checked ? activeCheckBox : null;
+            this.game.SelectedTheme = Convert.ToInt32(activeCheckBox.Name);
+        }
+
+        //<-----------------------------------------------------------NAVIGATION----------------------------------------------------------->
         /// <summary>
         /// Validates that two player names have been provided. 
         /// If so create two new instances of Player and add them to the Memory.Players array.
@@ -129,8 +163,6 @@ namespace MemoryGame
             tabControl1.SelectedTab = tabMemory;
         }
 
-        //<-----------------------------------------------------------NAVIGATION----------------------------------------------------------->
-   
         private void ButtonStartGame_Click(object sender, EventArgs e)
         {
             tabControl1.SelectedTab = tabPreGame;

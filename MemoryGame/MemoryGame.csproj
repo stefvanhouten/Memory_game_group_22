@@ -137,5 +137,29 @@
   <ItemGroup>
     <None Include="images\Animals\wine.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="images\LOTR\BadBoi.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\LOTR\Ent.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\LOTR\Frodo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\LOTR\Gandalf.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\LOTR\ring.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\LOTR\Smeegle.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\LOTR\SomeDwarf.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\LOTR\SwordWieldingLotrGuy.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

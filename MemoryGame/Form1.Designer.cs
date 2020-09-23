@@ -225,7 +225,8 @@
             // labelThemeSelect
             // 
             this.labelThemeSelect.AutoSize = true;
-            this.labelThemeSelect.Location = new System.Drawing.Point(8, 8);
+            this.labelThemeSelect.Dock = System.Windows.Forms.DockStyle.Top;
+            this.labelThemeSelect.Location = new System.Drawing.Point(3, 3);
             this.labelThemeSelect.Name = "labelThemeSelect";
             this.labelThemeSelect.Size = new System.Drawing.Size(85, 13);
             this.labelThemeSelect.TabIndex = 0;
