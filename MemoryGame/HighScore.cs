@@ -53,10 +53,5 @@ namespace MemoryGame
            *    
            */
         }
-
-        public void AddToHighScores(Player player)
-        {
-
-        }
     }
 }

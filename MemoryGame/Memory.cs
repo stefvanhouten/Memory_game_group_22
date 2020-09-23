@@ -1,77 +1,83 @@
 ﻿using MemoryGame.Properties;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Runtime.CompilerServices;
+using System.Security.Permissions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using System.Linq;
 namespace MemoryGame
 {
+    static class MyExtensions
+    {
+        public static void Shuffle<T>(this IList<T> list)
+        {
+            Random rng = new Random();
+            int n = list.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = rng.Next(n + 1);
+                T value = list[k];
+                list[k] = list[n];
+                list[n] = value;
+            }
+        }
+    }
+
+    public class CardPictureBox : PictureBox
+    {
+        public string PairName { get; set; }
+        public bool IsSolved {get; set;} = false;
+        public bool HasBeenVisible { get; set; } = false;
+        public Bitmap CardImage { get; set; } //Custom bitmap to store the image in. PictureBox.Image cant be hidden without losing the image
+    }
+
+    public struct CardNameAndImage
+    {
+        public string Name { get; set; }
+        public Bitmap Resource { get; set; }
+    }
+
     internal class Memory
     {
         private bool GameIsFrozen { get; set; } = false;
         private bool IsPlayerOnesTurn { get; set; } = true;
-        public int SelectedTheme { get; set; } = 0;
+        private List<KeyValuePair<int, string>> Theme = new List<KeyValuePair<int, string>>();
+        private int SelectedTheme { get; set; } = 0;
         private List<CardPictureBox> Deck { get; set; }
         //Probably need to look for a way to dynamicly do this
-        private Dictionary<int, List<CardNameAndImage>> ThemeImages { get; set; } = new Dictionary<int, List<CardNameAndImage>>()
+        private Dictionary<int, List<CardNameAndImage>> ThemeImages = new Dictionary<int, List<CardNameAndImage>>()
         {
-            { 0, new List<CardNameAndImage>()
-                {
-                    new CardNameAndImage() { Name = "banana", Resource = Resources.banana },
-                    new CardNameAndImage() { Name = "banana", Resource=Resources.banana },
-                    new CardNameAndImage() { Name = "book", Resource = Resources.book },
-                    new CardNameAndImage() { Name = "book", Resource = Resources.book },
-                    new CardNameAndImage() { Name = "bug", Resource = Resources.bug },
-                    new CardNameAndImage() { Name = "bug", Resource = Resources.bug },
-                    new CardNameAndImage() { Name = "car", Resource = Resources.car },
-                    new CardNameAndImage() { Name = "car", Resource = Resources.car },
-                    new CardNameAndImage() { Name = "monkey", Resource = Resources.monkey },
-                    new CardNameAndImage() { Name = "monkey", Resource = Resources.monkey },
-                    new CardNameAndImage() { Name = "tornado", Resource = Resources.tornado },
-                    new CardNameAndImage() { Name = "tornado", Resource = Resources.tornado },
-                    new CardNameAndImage() { Name = "tree", Resource = Resources.tree },
-                    new CardNameAndImage() { Name = "tree", Resource = Resources.tree },
-                    new CardNameAndImage() { Name = "wine", Resource = Resources.wine },
-                    new CardNameAndImage() { Name = "wine", Resource = Resources.wine },
-                }
-            },
-            { 1, new List<CardNameAndImage>()
-                {
-                    new CardNameAndImage() { Name = "BadBoi", Resource = Resources.BadBoi },
-                    new CardNameAndImage() { Name = "BadBoi", Resource = Resources.BadBoi },
-                    new CardNameAndImage() { Name = "Ent", Resource = Resources.Ent },
-                    new CardNameAndImage() { Name = "Ent", Resource = Resources.Ent },
-                    new CardNameAndImage() { Name = "Frodo", Resource = Resources.Frodo },
-                    new CardNameAndImage() { Name = "Frodo", Resource = Resources.Frodo },
-                    new CardNameAndImage() { Name = "Gandalf", Resource = Resources.Gandalf },
-                    new CardNameAndImage() { Name = "Gandalf", Resource = Resources.Gandalf },
-                    new CardNameAndImage() { Name = "Ring", Resource = Resources.ring },
-                    new CardNameAndImage() { Name = "Ring", Resource = Resources.ring },
-                    new CardNameAndImage() { Name = "SwordWieldingLotrGuy", Resource = Resources.SwordWieldingLotrGuy },
-                    new CardNameAndImage() { Name = "SwordWieldingLotrGuy", Resource = Resources.SwordWieldingLotrGuy },
-                    new CardNameAndImage() { Name = "SomeDwarf", Resource = Resources.SomeDwarf },
-                    new CardNameAndImage() { Name = "SomeDwarf", Resource = Resources.SomeDwarf },
-                    new CardNameAndImage() { Name = "Smeegle", Resource = Resources.Smeegle },
-                    new CardNameAndImage() { Name = "Smeegle", Resource = Resources.Smeegle },
-                }
-            },
-
+            { 0, new List<CardNameAndImage>() { 
+                new CardNameAndImage() { Name = "banana", Resource = Resources.banana }, 
+                new CardNameAndImage() { Name = "book", Resource = Resources.book },
+                new CardNameAndImage() { Name = "bug", Resource = Resources.bug },
+                new CardNameAndImage() { Name = "car", Resource = Resources.car },
+                new CardNameAndImage() { Name = "monkey", Resource = Resources.monkey },
+                new CardNameAndImage() { Name = "tornado", Resource = Resources.tornado },
+                new CardNameAndImage() { Name = "tree", Resource = Resources.tree },
+                new CardNameAndImage() { Name = "wine", Resource = Resources.wine },
+                new CardNameAndImage() { Name = "banana", Resource=Resources.banana },
+                new CardNameAndImage() { Name = "book", Resource = Resources.book },
+                new CardNameAndImage() { Name = "bug", Resource = Resources.bug },
+                new CardNameAndImage() { Name = "car", Resource = Resources.car },
+                new CardNameAndImage() { Name = "monkey", Resource = Resources.monkey },
+                new CardNameAndImage() { Name = "tornado", Resource = Resources.tornado },
+                new CardNameAndImage() { Name = "tree", Resource = Resources.tree },
+                new CardNameAndImage() { Name = "wine", Resource = Resources.wine },
+            } },
         };
 
         public HighScore HighScores { get; private set; }
-        public int Rows { get; set; } = 4;
-        public int Collumns { get; set; } = 4;
+        public int Rows { get; private set; } = 4;
+        public int Collumns { get; private set; } = 4;
         public Player[] Players { get; private set; } = new Player[2];
         public List<CardPictureBox> SelectedCards { get; private set; } //Holds 2 cards that currently are selected
         public TableLayoutPanel Panel { get; private set; }
         public Form1 Form1 { get; set; }
-        public List<KeyValuePair<int, string>> Theme { get; private set; } = new List<KeyValuePair<int, string>>();
-        public List<GameOptions> GameOptions { get; private set; } = new List<GameOptions>() {
-            new GameOptions { Name = "Classic 4x4", Rows = 4, Columns = 4 },
-            new GameOptions { Name = "Easy 2x2", Rows = 2, Columns = 2 },
-            new GameOptions { Name = "Medium 4x5", Rows = 4, Columns = 5 },
-            new GameOptions { Name = "Hard 5x6", Rows = 5, Columns = 6 },
-        };
+
 
         public Memory(TableLayoutPanel panel, Form1 form1)
         {
@@ -80,36 +86,23 @@ namespace MemoryGame
 
             this.HighScores = new HighScore();
             this.Theme.Add(new KeyValuePair<int, string>(0, "Animals"));
-            this.Theme.Add(new KeyValuePair<int, string>(1, "Lord Of The Rings"));
         }
 
-        /// <summary>
-        /// Launches the memory game!
-        /// </summary>
         public void StartGame()
         {
             this.PopulateDeck();
         }
 
-        /// <summary>
-        /// Return the total amount of cards in the currently selected theme
-        /// </summary>
-        /// <returns>Integer total amount of cards</returns>
-        public int TotalCardsInCurrentTheme()
-        {
-            return this.ThemeImages[this.SelectedTheme].Count;
-        }
-
-        ///  <summary> 
-        ///  Handles setting up all the styling that needs to be done before a game of memory is played.  
-        ///  Builds the layout based on the amount of Collumns and Rows the players have selected in the 
-        ///  pre-game interface. 
-        ///  
-        ///  Also Removes default styles given to the column and rows, this needs to be done because it will
-        ///  mess up the styles of the dynamicly generated colums and rows.
-        ///  </summary>
         private void ConfigurateDeckStyling()
         {
+            /*  Handles setting up all the styling that needs to be done before a game of memory is played.  
+             *  Builds the layout based on the amount of Collumns and Rows the players have selected in the 
+             *  pre-game interface. 
+             *  
+             *  Also Removes default styles given to the column and rows, this needs to be done because it will
+             *  mess up the styles of the dynamicly generated colums and rows.
+             */
+         
             this.Panel.ColumnCount = this.Collumns;
             this.Panel.RowCount = this.Rows;
             this.Panel.CellBorderStyle = TableLayoutPanelCellBorderStyle.Inset;
@@ -129,27 +122,12 @@ namespace MemoryGame
             }
         }
 
-        /// <summary>
-        /// Ends the current memory game and redirects to highscores page.
-        /// Calls the HighScores.AddToHighScores method to add the previously played game to the highscores
-        /// </summary>
-        public void EndGame()
-        {
-            foreach (Player player in this.Players)
-            {
-                this.HighScores.AddToHighScores(player);
-            }
-            this.Form1.RedirectToHighScores();
-            this.Form1.ClearPanels();
-        }
-
-        /// <summary>
-        /// Generates the amount of cards needed based on this.Colums and this.Rows.
-        /// Cards get assigned images based on the currently selected theme. 
-        /// Also handles randomizing the deck each time a game is played. 
-        /// </summary>
         private void PopulateDeck()
         {
+            /*  Generates the amount of cards needed based on this.Colums and this.Rows. 
+             *  Cards get assigned images based on the currently selected theme. 
+             *  Also handles randomizing the deck each time a game is played. 
+             */
             this.ConfigurateDeckStyling();
             this.Deck = new List<CardPictureBox>(); 
             this.SelectedCards = new List<CardPictureBox>();
@@ -164,28 +142,28 @@ namespace MemoryGame
                     PairName = this.ThemeImages[this.SelectedTheme][i].Name,
                     CardImage = this.ThemeImages[this.SelectedTheme][i].Resource
                 };
-               
                 card.Click += this.CardClicked;
                 this.Deck.Add(card);
             }
             //Randomize the location of the cards in the deck
-            this.Deck.Shuffle();
             this.Deck.Shuffle();
             foreach (CardPictureBox card in this.Deck)
             {
                 this.Panel.Controls.Add(card);
             }
         }
-        /// <summary>
-        /// This method check if the selected card in SelectedCards list are a match. 
-        /// If it is a match flip a boolean in the PictureBox so that we know this card has previously been solved.
-        /// Also calls the ScoreBoard.Add method to increment the score of the player that is currently playing.
-        /// We keep track of the current player with the this.IsPlayerOnesTurn bool. After a player turned two cards
-        /// this boolean is flipped.
-        /// Lastly we clear the SelectedCards list so that we can keep on playing.
-        /// </summary>
+
         public void CheckIfMatch()
         {
+            /*  This method check if the selected card in SelectedCards list are a match. 
+             *  If it is a match flip a boolean in the PictureBox so that we know this card has previously been solved.
+             *  
+             *  Also calls the ScoreBoard.Add method to increment the score of the player that is currently playing.
+             *  We keep track of the current player with the this.IsPlayerOnesTurn bool. After a player turned two cards
+             *  this boolean is flipped.
+             *  
+             *  Lastly we clear the SelectedCards list so that we can keep on playing.
+             */
             if (this.SelectedCards[0].PairName == this.SelectedCards[1].PairName)
             {
                 foreach (CardPictureBox card in this.SelectedCards)
@@ -226,29 +204,22 @@ namespace MemoryGame
             this.IsPlayerOnesTurn = !this.IsPlayerOnesTurn;
             this.SelectedCards.Clear();
             this.GameIsFrozen = false;
-            //Check if all cards are solved
-            if (this.Deck.FindAll(c => c.IsSolved == false).Count == 0)
-            {
-                this.EndGame();
-            }
         }
 
-        /// <summary>
-        /// Handles whatever happends when clicking on one of the PictureBoxes(cards) on the playing field.
-        /// First we have to run a couple checks to determine if we can proceed;
-        /// - We need to check if the game is frozen, this happends after clicking on a card. We need to freeze the game
-        ///   because if we do not do so the player has no time to see the second card he tried to match with the first.
-        ///   So when we do not freeze the game the player has a (300)ms window to click other cards and mess up what is happenin
-        /// - Check if the currently clicked card is already in the this.SelectedCards list, we do not want a user to be able
-        ///   to gain points for matching the card with the card he just clicked.
-        /// - If a card is solved we do not want to be able to gain points for that either. 
-        /// 
-        /// When we have two cards in the this.SelectedCards list we want to proceed and check if they match.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         public void CardClicked(object sender, System.EventArgs e)
         {
+            /*  Handles whatever happends when clicking on one of the PictureBoxes(cards) on the playing field.
+             *  First we have to run a couple checks to determine if we can proceed;
+             *  - We need to check if the game is frozen, this happends after clicking on a card. We need to freeze the game
+             *    because if we do not do so the player has no time to see the second card he tried to match with the first. 
+             *    So when we do not freeze the game the player has a (300)ms window to click other cards and mess up what is happening.
+             *    When the game is frozen we have to wait untill all checks are done and we regain control.
+             *  - Check if the currently clicked card is already in the this.SelectedCards list, we do not want a user to be able
+             *    to gain points for matching the card with the card he just clicked.
+             *  - If a card is solved we do not want to be able to gain points for that either. 
+             *  
+             *  When we have two cards in the this.SelectedCards list we want to proceed and check if they match. 
+             */
             CardPictureBox selectedCard = (CardPictureBox)sender;
             //First check all the conditions on which we want to exit early
             if (this.GameIsFrozen || this.SelectedCards.Contains(selectedCard) || selectedCard.IsSolved)

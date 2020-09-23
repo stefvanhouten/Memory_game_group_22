@@ -46,24 +46,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
     <Compile Include="Encryptor.cs" />
-=======
-    <Compile Include="CardNameAndImage.cs" />
-    <Compile Include="CardPictureBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
->>>>>>> dev
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="GameOptions.cs" />
     <Compile Include="HighScore.cs" />
     <Compile Include="Memory.cs" />
-    <Compile Include="MyExtensions.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -141,30 +132,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="images\Animals\wine.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="images\LOTR\BadBoi.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="images\LOTR\Ent.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="images\LOTR\Frodo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="images\LOTR\Gandalf.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="images\LOTR\ring.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="images\LOTR\Smeegle.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="images\LOTR\SomeDwarf.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="images\LOTR\SwordWieldingLotrGuy.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
