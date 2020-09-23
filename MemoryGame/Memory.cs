@@ -13,60 +13,65 @@ namespace MemoryGame
         public int SelectedTheme { get; set; } = 0;
         private List<CardPictureBox> Deck { get; set; }
         //Probably need to look for a way to dynamicly do this
-        private Dictionary<int, List<CardNameAndImage>> ThemeImages = new Dictionary<int, List<CardNameAndImage>>()
+        private Dictionary<int, List<CardNameAndImage>> ThemeImages { get; set; } = new Dictionary<int, List<CardNameAndImage>>()
         {
-            { 0, new List<CardNameAndImage>() 
-                { 
-                    new CardNameAndImage() { Name = "banana", Resource = Resources.banana }, 
-                    new CardNameAndImage() { Name = "book", Resource = Resources.book },
-                    new CardNameAndImage() { Name = "bug", Resource = Resources.bug },
-                    new CardNameAndImage() { Name = "car", Resource = Resources.car },
-                    new CardNameAndImage() { Name = "monkey", Resource = Resources.monkey },
-                    new CardNameAndImage() { Name = "tornado", Resource = Resources.tornado },
-                    new CardNameAndImage() { Name = "tree", Resource = Resources.tree },
-                    new CardNameAndImage() { Name = "wine", Resource = Resources.wine },
+            { 0, new List<CardNameAndImage>()
+                {
+                    new CardNameAndImage() { Name = "banana", Resource = Resources.banana },
                     new CardNameAndImage() { Name = "banana", Resource=Resources.banana },
                     new CardNameAndImage() { Name = "book", Resource = Resources.book },
+                    new CardNameAndImage() { Name = "book", Resource = Resources.book },
+                    new CardNameAndImage() { Name = "bug", Resource = Resources.bug },
                     new CardNameAndImage() { Name = "bug", Resource = Resources.bug },
                     new CardNameAndImage() { Name = "car", Resource = Resources.car },
+                    new CardNameAndImage() { Name = "car", Resource = Resources.car },
+                    new CardNameAndImage() { Name = "monkey", Resource = Resources.monkey },
                     new CardNameAndImage() { Name = "monkey", Resource = Resources.monkey },
                     new CardNameAndImage() { Name = "tornado", Resource = Resources.tornado },
+                    new CardNameAndImage() { Name = "tornado", Resource = Resources.tornado },
+                    new CardNameAndImage() { Name = "tree", Resource = Resources.tree },
                     new CardNameAndImage() { Name = "tree", Resource = Resources.tree },
                     new CardNameAndImage() { Name = "wine", Resource = Resources.wine },
-                } 
+                    new CardNameAndImage() { Name = "wine", Resource = Resources.wine },
+                }
             },
             { 1, new List<CardNameAndImage>()
                 {
                     new CardNameAndImage() { Name = "BadBoi", Resource = Resources.BadBoi },
-                    new CardNameAndImage() { Name = "Ent", Resource = Resources.Ent },
-                    new CardNameAndImage() { Name = "Frodo", Resource = Resources.Frodo },
-                    new CardNameAndImage() { Name = "Gandalf", Resource = Resources.Gandalf },
-                    new CardNameAndImage() { Name = "Ring", Resource = Resources.ring },
-                    new CardNameAndImage() { Name = "Smeegle", Resource = Resources.Smeegle },
-                    new CardNameAndImage() { Name = "SwordWieldingLotrGuy", Resource = Resources.SwordWieldingLotrGuy },
-                    new CardNameAndImage() { Name = "SomeDwarf", Resource = Resources.SomeDwarf },
                     new CardNameAndImage() { Name = "BadBoi", Resource = Resources.BadBoi },
                     new CardNameAndImage() { Name = "Ent", Resource = Resources.Ent },
+                    new CardNameAndImage() { Name = "Ent", Resource = Resources.Ent },
+                    new CardNameAndImage() { Name = "Frodo", Resource = Resources.Frodo },
                     new CardNameAndImage() { Name = "Frodo", Resource = Resources.Frodo },
                     new CardNameAndImage() { Name = "Gandalf", Resource = Resources.Gandalf },
+                    new CardNameAndImage() { Name = "Gandalf", Resource = Resources.Gandalf },
                     new CardNameAndImage() { Name = "Ring", Resource = Resources.ring },
-                    new CardNameAndImage() { Name = "Smeegle", Resource = Resources.Smeegle },
+                    new CardNameAndImage() { Name = "Ring", Resource = Resources.ring },
+                    new CardNameAndImage() { Name = "SwordWieldingLotrGuy", Resource = Resources.SwordWieldingLotrGuy },
                     new CardNameAndImage() { Name = "SwordWieldingLotrGuy", Resource = Resources.SwordWieldingLotrGuy },
                     new CardNameAndImage() { Name = "SomeDwarf", Resource = Resources.SomeDwarf },
+                    new CardNameAndImage() { Name = "SomeDwarf", Resource = Resources.SomeDwarf },
+                    new CardNameAndImage() { Name = "Smeegle", Resource = Resources.Smeegle },
+                    new CardNameAndImage() { Name = "Smeegle", Resource = Resources.Smeegle },
                 }
             },
 
         };
 
         public HighScore HighScores { get; private set; }
-        public int Rows { get; private set; } = 4;
-        public int Collumns { get; private set; } = 4;
+        public int Rows { get; set; } = 4;
+        public int Collumns { get; set; } = 4;
         public Player[] Players { get; private set; } = new Player[2];
         public List<CardPictureBox> SelectedCards { get; private set; } //Holds 2 cards that currently are selected
         public TableLayoutPanel Panel { get; private set; }
         public Form1 Form1 { get; set; }
-        public List<KeyValuePair<int, string>> Theme = new List<KeyValuePair<int, string>>();
-
+        public List<KeyValuePair<int, string>> Theme { get; private set; } = new List<KeyValuePair<int, string>>();
+        public List<GameOptions> GameOptions { get; private set; } = new List<GameOptions>() {
+            new GameOptions { Name = "Classic 4x4", Rows = 4, Columns = 4 },
+            new GameOptions { Name = "Easy 2x2", Rows = 2, Columns = 2 },
+            new GameOptions { Name = "Medium 4x5", Rows = 4, Columns = 5 },
+            new GameOptions { Name = "Hard 5x6", Rows = 5, Columns = 6 },
+        };
 
         public Memory(TableLayoutPanel panel, Form1 form1)
         {
@@ -78,9 +83,21 @@ namespace MemoryGame
             this.Theme.Add(new KeyValuePair<int, string>(1, "Lord Of The Rings"));
         }
 
+        /// <summary>
+        /// Launches the memory game!
+        /// </summary>
         public void StartGame()
         {
             this.PopulateDeck();
+        }
+
+        /// <summary>
+        /// Return the total amount of cards in the currently selected theme
+        /// </summary>
+        /// <returns>Integer total amount of cards</returns>
+        public int TotalCardsInCurrentTheme()
+        {
+            return this.ThemeImages[this.SelectedTheme].Count;
         }
 
         ///  <summary> 
@@ -147,10 +164,12 @@ namespace MemoryGame
                     PairName = this.ThemeImages[this.SelectedTheme][i].Name,
                     CardImage = this.ThemeImages[this.SelectedTheme][i].Resource
                 };
+               
                 card.Click += this.CardClicked;
                 this.Deck.Add(card);
             }
             //Randomize the location of the cards in the deck
+            this.Deck.Shuffle();
             this.Deck.Shuffle();
             foreach (CardPictureBox card in this.Deck)
             {

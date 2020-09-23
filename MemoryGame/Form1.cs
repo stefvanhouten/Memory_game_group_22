@@ -24,6 +24,7 @@ namespace MemoryGame
         {
             InitializeComponent();
             this.Load += Form1_Load; //Add our custom load method 
+            this.GameSizeComboBox.SelectedIndexChanged += GameSizeComboBox_SelectedInexChanged;
             //Create an instace of the base class of our memory game
             //Not sure if adding Toolbox items to the class is the right way to go, might want to look into this. 
             this.game = new Memory(tableLayoutPanel1, this);
@@ -54,6 +55,7 @@ namespace MemoryGame
                 tabThemeSelection.Controls.Add(box);
                 i++;
             }
+            this.GenerateGameSizeDropDownOptions();
         }
 
         /// <summary>
@@ -119,6 +121,28 @@ namespace MemoryGame
             }
         }
 
+        private void GenerateGameSizeDropDownOptions()
+        {
+            this.GameSizeComboBox.Items.Clear();
+            int totalCards = this.game.TotalCardsInCurrentTheme();
+            foreach(GameOptions item in this.game.GameOptions)
+            {
+                if (totalCards >= item.CardsRequired)
+                {
+                    this.GameSizeComboBox.Items.Add(item);
+                }
+            }
+            this.GameSizeComboBox.SelectedIndex = 0;
+        }
+
+        private void GameSizeComboBox_SelectedInexChanged(object sender, EventArgs e)
+        {
+            ComboBox comboBox = (ComboBox)sender;
+            GameOptions options = (GameOptions)comboBox.SelectedItem;
+            this.game.Rows = options.Rows;
+            this.game.Collumns = options.Columns;
+        }
+
 
         private void CheckBox_Click(object sender, EventArgs e)
         {
@@ -130,6 +154,7 @@ namespace MemoryGame
 
             lastChecked = activeCheckBox.Checked ? activeCheckBox : null;
             this.game.SelectedTheme = Convert.ToInt32(activeCheckBox.Name);
+            this.GenerateGameSizeDropDownOptions();
         }
 
         //<-----------------------------------------------------------NAVIGATION----------------------------------------------------------->

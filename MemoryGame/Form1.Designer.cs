@@ -57,6 +57,7 @@
             this.PlayerTwoScoreLabel = new System.Windows.Forms.Label();
             this.PlayerOneScoreLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.GameSizeComboBox = new System.Windows.Forms.ComboBox();
             this.tabHighScores.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tabHome.SuspendLayout();
@@ -234,6 +235,7 @@
             // 
             // tabPreGame
             // 
+            this.tabPreGame.Controls.Add(this.GameSizeComboBox);
             this.tabPreGame.Controls.Add(this.buttonStartMemoryGame);
             this.tabPreGame.Controls.Add(this.buttonPreGameHome);
             this.tabPreGame.Controls.Add(this.textBox2);
@@ -362,6 +364,15 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(653, 413);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
+            // GameSizeComboBox
+            // 
+            this.GameSizeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.GameSizeComboBox.FormattingEnabled = true;
+            this.GameSizeComboBox.Location = new System.Drawing.Point(11, 108);
+            this.GameSizeComboBox.Name = "GameSizeComboBox";
+            this.GameSizeComboBox.Size = new System.Drawing.Size(199, 21);
+            this.GameSizeComboBox.TabIndex = 6;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -416,6 +427,7 @@
         private System.Windows.Forms.Label PlayerTwoScoreLabel;
         private System.Windows.Forms.Label PlayerOneScoreLabel;
         private System.Windows.Forms.Label CurrentPlayerPlayingLabel;
+        private System.Windows.Forms.ComboBox GameSizeComboBox;
     }
 }
 
