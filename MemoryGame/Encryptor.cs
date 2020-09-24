@@ -8,19 +8,13 @@ using System.Threading.Tasks;
 
 namespace Security
 {
+    /// <summary>
+    /// Provides encryption and decryption for strings
+    /// </summary>
     class Encryptor
     {
-        /*
-         * "generate" a password
-         */
         static readonly string Password = "RandomgEneraTeDsTriNg";
-        /*
-         * Salt the password
-         */
         static readonly string Salt = "PrettySalty";
-        /*
-         * IV 
-         */
         static readonly string IV = "@5B2C6G2s5H2F1p0";
 
         public string Encrypt(string input)
@@ -33,7 +27,7 @@ namespace Security
             //Intitializes a new Rfc2898DeriveBytes class with a password and the salt. It generates the key we'll be using.
             byte[] Key = new Rfc2898DeriveBytes(Password, Encoding.ASCII.GetBytes(Salt)).GetBytes(256 / 8);
 
-            //Creates the key well be using for the actual encryptor. Which it'll use to encrypt and decrypt data HEAD
+            //Creates the key we will be using for the actual encryptor. Which it'll use to encrypt and decrypt data HEAD
             var encryptorkey = new RijndaelManaged() { Mode = CipherMode.CBC, Padding = PaddingMode.Zeros };
 
             //Sets the actual encryptor with the key and IV

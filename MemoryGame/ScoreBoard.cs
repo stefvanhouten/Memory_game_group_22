@@ -6,9 +6,13 @@ using System.Threading.Tasks;
 
 namespace MemoryGame
 {
+    /// <summary>
+    /// ScoreBoard keeps track of player objects score. 
+    /// </summary>
     class ScoreBoard
     {
         public int Score { get; private set; } = 0;
+        private int RemoveFromScore { get; set; } = 2;
 
         public ScoreBoard()
         {
@@ -24,6 +28,7 @@ namespace MemoryGame
              * 
              * Methods are already attached and the score will be updated in the game if you make it work :D
              */
+            this.Score += 5;
         }
 
         public void DecreaseScore()
@@ -31,6 +36,14 @@ namespace MemoryGame
             /* Logic for decremeting the score from the scoreboard should go here. Score shouldn't drop below 0 points!
              * After you are done writing code summarise what this method does and replace this comment.
              */
+            if(this.Score >= this.RemoveFromScore)
+            {
+                this.Score -= this.RemoveFromScore;
+            }
+            else
+            {
+                this.Score = 0;
+            }
         }
     }
 }

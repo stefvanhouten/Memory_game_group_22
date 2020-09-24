@@ -1,6 +1,9 @@
 ﻿using System;
 using System.IO;
 
+/// <summary>
+/// Provides basic functionality for handling files.
+/// </summary>
 public class Files
 {
     public string FilePath { get; private set; }
@@ -29,9 +32,7 @@ public class Files
         }
     }
 
-    /*
-     
-     */
+
     /// <summary>
     /// WriteToFile writes data to a file
     /// parameter overwrite will overwrite the file its contents with the new contents passed along

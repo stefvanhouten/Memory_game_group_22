@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace MemoryGame
 {
+    /// <summary>
+    /// Extension class that we use to add a shuffle method to lists.
+    /// </summary>
     static class MyExtensions
     {
         public static void Shuffle<T>(this IList<T> list)
