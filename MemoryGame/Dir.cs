@@ -10,14 +10,14 @@ public class Dir
      * Create DirectoryInfo object
      * It contains all the properties regarding the directory
      */
-    public DirectoryInfo dirInfo { get; private set; }
+    public DirectoryInfo DirInfo { get; private set; }
 
     /*
      * Load a new DirectoryInfo object and assign it to dirInfo property
      */
     public Dir(string path)
     {
-        this.dirInfo = new DirectoryInfo(path);
+        this.DirInfo = new DirectoryInfo(path);
     }
 
     /*
@@ -28,7 +28,7 @@ public class Dir
     {
         if (!this.DirExists())
         {
-            this.dirInfo.Create();
+            this.DirInfo.Create();
         }
     }
 
@@ -37,7 +37,7 @@ public class Dir
      */
     public bool DirExists()
     {
-        return this.dirInfo.Exists;
+        return this.DirInfo.Exists;
     }
 
     /*
@@ -45,7 +45,7 @@ public class Dir
      */
     public string GetDirPath()
     {
-        return this.dirInfo.FullName;
+        return this.DirInfo.FullName;
     }
 
     /*
@@ -57,11 +57,11 @@ public class Dir
         switch (forceDelete)
         {
             case false:
-                this.dirInfo.Delete();
+                this.DirInfo.Delete();
                 break;
 
             case true:
-                this.dirInfo.Delete(true);
+                this.DirInfo.Delete(true);
                 break;
         }
     }

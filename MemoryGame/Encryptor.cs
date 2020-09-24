@@ -39,11 +39,6 @@ namespace Security
             //Sets the actual encryptor with the key and IV
             var encryptor = encryptorkey.CreateEncryptor(Key, Encoding.ASCII.GetBytes(IV));
 
-            var encryptorkey = new RijndaelManaged() { Mode = CipherMode.CBC, Padding = PaddingMode.Zeros };
-
-            //Sets the actual encryptor with the key and VI
-            var encryptor = encryptorkey.CreateEncryptor(Key, Encoding.ASCII.GetBytes(VI));
-            
             //Opens a new memoryStream
             using (var memStream = new MemoryStream())
             {
@@ -83,8 +78,6 @@ namespace Security
 
             //We use the same generation parameters to generate the same encryptor (decryptor)
             var decryptor = RijndaelManaged.CreateDecryptor(KeyBytes, Encoding.ASCII.GetBytes(IV));
-
-            var decryptor = RijndaelManaged.CreateDecryptor(KeyBytes, Encoding.ASCII.GetBytes(VI));
 
             //We set a new memorystream with the cipher in it
             var memoryStream = new MemoryStream(cipherBytes);

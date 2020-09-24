@@ -3,11 +3,11 @@ using System.IO;
 
 public class Files
 {
-    public string filePath { get; private set; }
+    public string FilePath { get; private set; }
 
     public Files(string completePath)
     {
-        this.filePath = completePath;
+        this.FilePath = completePath;
     }
 
     /*
@@ -17,9 +17,9 @@ public class Files
      */
     public void Create()
     {
-        if (!this.Exists())
+        if (!this.FileExists())
         {
-            using (FileStream fs = File.Create(this.filePath))
+            using (FileStream fs = File.Create(this.FilePath))
             {
                 /*
                  * "using" statement is being used here, to dispose the ongoing process once it's finished
@@ -38,7 +38,7 @@ public class Files
     {
         if (overwrite)
         {
-            File.WriteAllText(this.filePath, writeMeToFile);
+            File.WriteAllText(this.FilePath, writeMeToFile);
         }
         else
         {
@@ -48,7 +48,7 @@ public class Files
              * ADDINITIONAL INFO:
              * StreamWriter implements a TextWriter for writing characters to a stream in a particular encoding.
              */
-            using (StreamWriter sw = File.AppendText(this.filePath))
+            using (StreamWriter sw = File.AppendText(this.FilePath))
             {
                 sw.WriteLine(writeMeToFile);
             }
@@ -60,7 +60,7 @@ public class Files
      */
     public string GetFileContent()
     {
-        return File.ReadAllText(this.filePath);
+        return File.ReadAllText(this.FilePath);
     }
 
     /*
@@ -68,6 +68,6 @@ public class Files
      */
     public bool FileExists()
     {
-        return File.Exists(this.filePath);
+        return File.Exists(this.FilePath);
     }
 }
