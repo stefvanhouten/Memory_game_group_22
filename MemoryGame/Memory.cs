@@ -57,7 +57,6 @@ namespace MemoryGame
             },
 
         };
-
         public HighScore HighScores { get; private set; }
         public int Rows { get; set; } = 4;
         public int Collumns { get; set; } = 4;
@@ -88,6 +87,9 @@ namespace MemoryGame
         /// </summary>
         public void StartGame()
         {
+            // todo
+            var soundPlayer = new Sound();
+            soundPlayer.Play(Resources.testsound);
             this.PopulateDeck();
         }
 

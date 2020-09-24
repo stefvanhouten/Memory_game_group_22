@@ -50,6 +50,7 @@
     <Compile Include="CardPictureBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Sound.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -161,6 +162,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="images\LOTR\SwordWieldingLotrGuy.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\testsound.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="sounds\testsound.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
