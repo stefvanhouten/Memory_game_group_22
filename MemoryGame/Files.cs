@@ -10,11 +10,11 @@ public class Files
         this.FilePath = completePath;
     }
 
-    /*
-     * Create the file based on whether it already exists or not
-     * If exists, ignore the creation of it
-     * if not, create the file in the designated filepath and dispose it after construction
-     */
+    /// <summary>
+    /// Create the file based on whether it already exists or not
+    /// If exists, ignore the creation of it
+    /// if not, create the file in the designated filepath and dispose it after construction
+    /// </summary>
     public void Create()
     {
         if (!this.FileExists())
@@ -30,10 +30,15 @@ public class Files
     }
 
     /*
-     * WriteToFile writes data to a file
-     * parameter overwrite will overwrite the file its contents with the new contents passed along
-     * parameter overwrite is default set to false, preventing files from being overwritten
+     
      */
+    /// <summary>
+    /// WriteToFile writes data to a file
+    /// parameter overwrite will overwrite the file its contents with the new contents passed along
+    /// parameter overwrite is default set to false, preventing files from being overwritten
+    /// </summary>
+    /// <param name="writeMeToFile"></param>
+    /// <param name="overwrite"></param>
     public void WriteToFile(string writeMeToFile, bool overwrite = false)
     {
         if (overwrite)
@@ -55,17 +60,19 @@ public class Files
         }
     }
 
-    /*
-     * Return the contents of a file to the client
-     */
+    /// <summary>
+    /// Returns the content that is stored in the file
+    /// </summary>
+    /// <returns>string Content stored in file</returns>
     public string GetFileContent()
     {
         return File.ReadAllText(this.FilePath);
     }
 
-    /*
-     * Check whether file exists
-     */
+    /// <summary>
+    /// Check whether file exists
+    /// </summary>
+    /// <returns>Boolean based on if file exists</returns>
     public bool FileExists()
     {
         return File.Exists(this.FilePath);
