@@ -17,7 +17,7 @@ public class Files
      */
     public void Create()
     {
-        if (!this.Exists())
+        if (!this.FileExists())
         {
             using (FileStream fs = File.Create(this.filePath))
             {
