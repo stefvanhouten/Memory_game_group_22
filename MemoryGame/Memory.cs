@@ -6,6 +6,9 @@ using System.Windows.Forms;
 
 namespace MemoryGame
 {
+    /// <summary>
+    /// Base class for the Memory game. 
+    /// </summary>
     internal class Memory
     {
         private bool GameIsFrozen { get; set; } = false;
@@ -141,6 +144,10 @@ namespace MemoryGame
             }
             this.Form1.RedirectToHighScores();
             this.Form1.ClearPanels();
+        }
+
+        private void PauseGame()
+        {
         }
 
         /// <summary>

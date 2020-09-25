@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace MemoryGame
 {
+    /// <summary>
+    /// Template for a HighScore listing. 
+    /// </summary>
     class HighScoreListing
     {
         public string Name { get; private set; }
@@ -23,6 +26,9 @@ namespace MemoryGame
         }
     }
 
+    /// <summary>
+    /// Keeps track of the memory game current highest scoring players.
+    /// </summary>
     class HighScore
     {
         public HighScore()
