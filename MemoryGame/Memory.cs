@@ -1,11 +1,17 @@
 ﻿using MemoryGame.Properties;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MemoryGame
 {
+
+ 
     /// <summary>
     /// Base class for the Memory game. 
     /// </summary>
@@ -92,6 +98,7 @@ namespace MemoryGame
         public void StartGame()
         {
             this.PopulateDeck();
+            this.PauseGame();
         }
 
         /// <summary>
@@ -146,8 +153,37 @@ namespace MemoryGame
             this.Form1.ClearPanels();
         }
 
-        private void PauseGame()
+        public void PauseGame()
         {
+            this.GameIsFrozen = true;
+            dynamic gameState = new System.Dynamic.ExpandoObject();
+            List<CardPictureBoxJson> jsonConvertableDeck = new List<CardPictureBoxJson>();
+
+            foreach (CardPictureBox card in this.Deck)
+            {
+                jsonConvertableDeck.Add(new CardPictureBoxJson() { IsSolved = card.IsSolved, PairName = card.PairName, HasBeenVisible = card.HasBeenVisible });
+            }
+
+            gameState.GameIsFrozen = this.GameIsFrozen;
+            gameState.IsPlayerOnesTurn = this.IsPlayerOnesTurn;
+            gameState.SelectedTheme = this.SelectedTheme;
+            gameState.Deck = jsonConvertableDeck;
+            gameState.Rows = this.Rows;
+            gameState.Collumns = this.Collumns;
+            gameState.Players = this.Players;
+            gameState.SelectedCards = this.SelectedCards;
+            string json = JsonConvert.SerializeObject(gameState, Formatting.Indented);
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "savegame.txt");
+            //TODO: clean this up and maybe add it to constructor/default value. Should we store multiple games or just one?
+            Files test = new Files(path);
+            test.Create();
+            test.WriteToFile(json);
+        }
+
+        public void ResumeGame()
+        {
+            //TODO: Needs to load data from the savegame.txt 
+            this.GameIsFrozen = false;
         }
 
         /// <summary>

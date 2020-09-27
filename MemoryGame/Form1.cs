@@ -217,6 +217,20 @@ namespace MemoryGame
             tabControl1.SelectedTab = tabHome;
 
         }
+
+        private void PauseResumeBtn_Click(object sender, EventArgs e)
+        {
+            if (PauseResumeBtn.Text.Contains("Pause"))
+            {
+                this.game.PauseGame();
+                PauseResumeBtn.Text = "Resume";
+            }
+            else
+            {
+                this.game.ResumeGame();
+                PauseResumeBtn.Text = "Pause";
+            }
+        }
         //<--------------------------------------------------------END NAVIGATION--------------------------------------------------------->
 
     }
