@@ -54,13 +54,14 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tabMemory = new System.Windows.Forms.TabPage();
-            this.CurrentPlayerPlayingLabel = new System.Windows.Forms.Label();
-            this.PlayerTwoScoreLabel = new System.Windows.Forms.Label();
-            this.PlayerOneScoreLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.PauseResumeBtn = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.PlayerOneScoreLabel = new System.Windows.Forms.Label();
+            this.CurrentPlayerPlayingLabel = new System.Windows.Forms.Label();
+            this.PlayerTwoScoreLabel = new System.Windows.Forms.Label();
+            this.LoadSavedGameCheckBox = new System.Windows.Forms.CheckBox();
             this.tabHighScores.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tabHome.SuspendLayout();
@@ -68,8 +69,8 @@
             this.tabThemeSelection.SuspendLayout();
             this.tabPreGame.SuspendLayout();
             this.tabMemory.SuspendLayout();
-            this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // imageList1
@@ -240,6 +241,7 @@
             // 
             // tabPreGame
             // 
+            this.tabPreGame.Controls.Add(this.LoadSavedGameCheckBox);
             this.tabPreGame.Controls.Add(this.GameSizeComboBox);
             this.tabPreGame.Controls.Add(this.buttonStartMemoryGame);
             this.tabPreGame.Controls.Add(this.buttonPreGameHome);
@@ -258,7 +260,7 @@
             // 
             this.GameSizeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.GameSizeComboBox.FormattingEnabled = true;
-            this.GameSizeComboBox.Location = new System.Drawing.Point(11, 108);
+            this.GameSizeComboBox.Location = new System.Drawing.Point(11, 99);
             this.GameSizeComboBox.Name = "GameSizeComboBox";
             this.GameSizeComboBox.Size = new System.Drawing.Size(199, 21);
             this.GameSizeComboBox.TabIndex = 6;
@@ -329,36 +331,6 @@
             this.tabMemory.Text = "Memory";
             this.tabMemory.UseVisualStyleBackColor = true;
             // 
-            // CurrentPlayerPlayingLabel
-            // 
-            this.CurrentPlayerPlayingLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.CurrentPlayerPlayingLabel.AutoSize = true;
-            this.CurrentPlayerPlayingLabel.Location = new System.Drawing.Point(312, 0);
-            this.CurrentPlayerPlayingLabel.Name = "CurrentPlayerPlayingLabel";
-            this.CurrentPlayerPlayingLabel.Size = new System.Drawing.Size(35, 13);
-            this.CurrentPlayerPlayingLabel.TabIndex = 2;
-            this.CurrentPlayerPlayingLabel.Text = "label5";
-            // 
-            // PlayerTwoScoreLabel
-            // 
-            this.PlayerTwoScoreLabel.AutoSize = true;
-            this.PlayerTwoScoreLabel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.PlayerTwoScoreLabel.Location = new System.Drawing.Point(540, 0);
-            this.PlayerTwoScoreLabel.Name = "PlayerTwoScoreLabel";
-            this.PlayerTwoScoreLabel.Size = new System.Drawing.Size(113, 13);
-            this.PlayerTwoScoreLabel.TabIndex = 1;
-            this.PlayerTwoScoreLabel.Text = "[PLAYER 2]: [SCORE]";
-            // 
-            // PlayerOneScoreLabel
-            // 
-            this.PlayerOneScoreLabel.AutoSize = true;
-            this.PlayerOneScoreLabel.Dock = System.Windows.Forms.DockStyle.Left;
-            this.PlayerOneScoreLabel.Location = new System.Drawing.Point(0, 0);
-            this.PlayerOneScoreLabel.Name = "PlayerOneScoreLabel";
-            this.PlayerOneScoreLabel.Size = new System.Drawing.Size(113, 13);
-            this.PlayerOneScoreLabel.TabIndex = 0;
-            this.PlayerOneScoreLabel.Text = "[PLAYER 1]: [SCORE]";
-            // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 1;
@@ -376,17 +348,6 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(653, 387);
             this.tableLayoutPanel1.TabIndex = 0;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.PlayerOneScoreLabel);
-            this.panel1.Controls.Add(this.CurrentPlayerPlayingLabel);
-            this.panel1.Controls.Add(this.PlayerTwoScoreLabel);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(653, 14);
-            this.panel1.TabIndex = 3;
             // 
             // panel2
             // 
@@ -407,6 +368,58 @@
             this.PauseResumeBtn.UseVisualStyleBackColor = true;
             this.PauseResumeBtn.Click += new System.EventHandler(this.PauseResumeBtn_Click);
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.PlayerOneScoreLabel);
+            this.panel1.Controls.Add(this.CurrentPlayerPlayingLabel);
+            this.panel1.Controls.Add(this.PlayerTwoScoreLabel);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(653, 14);
+            this.panel1.TabIndex = 3;
+            // 
+            // PlayerOneScoreLabel
+            // 
+            this.PlayerOneScoreLabel.AutoSize = true;
+            this.PlayerOneScoreLabel.Dock = System.Windows.Forms.DockStyle.Left;
+            this.PlayerOneScoreLabel.Location = new System.Drawing.Point(0, 0);
+            this.PlayerOneScoreLabel.Name = "PlayerOneScoreLabel";
+            this.PlayerOneScoreLabel.Size = new System.Drawing.Size(113, 13);
+            this.PlayerOneScoreLabel.TabIndex = 0;
+            this.PlayerOneScoreLabel.Text = "[PLAYER 1]: [SCORE]";
+            // 
+            // CurrentPlayerPlayingLabel
+            // 
+            this.CurrentPlayerPlayingLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.CurrentPlayerPlayingLabel.AutoSize = true;
+            this.CurrentPlayerPlayingLabel.Location = new System.Drawing.Point(312, 0);
+            this.CurrentPlayerPlayingLabel.Name = "CurrentPlayerPlayingLabel";
+            this.CurrentPlayerPlayingLabel.Size = new System.Drawing.Size(35, 13);
+            this.CurrentPlayerPlayingLabel.TabIndex = 2;
+            this.CurrentPlayerPlayingLabel.Text = "label5";
+            // 
+            // PlayerTwoScoreLabel
+            // 
+            this.PlayerTwoScoreLabel.AutoSize = true;
+            this.PlayerTwoScoreLabel.Dock = System.Windows.Forms.DockStyle.Right;
+            this.PlayerTwoScoreLabel.Location = new System.Drawing.Point(540, 0);
+            this.PlayerTwoScoreLabel.Name = "PlayerTwoScoreLabel";
+            this.PlayerTwoScoreLabel.Size = new System.Drawing.Size(113, 13);
+            this.PlayerTwoScoreLabel.TabIndex = 1;
+            this.PlayerTwoScoreLabel.Text = "[PLAYER 2]: [SCORE]";
+            // 
+            // LoadSavedGameCheckBox
+            // 
+            this.LoadSavedGameCheckBox.AutoSize = true;
+            this.LoadSavedGameCheckBox.Location = new System.Drawing.Point(11, 126);
+            this.LoadSavedGameCheckBox.Name = "LoadSavedGameCheckBox";
+            this.LoadSavedGameCheckBox.Size = new System.Drawing.Size(111, 17);
+            this.LoadSavedGameCheckBox.TabIndex = 7;
+            this.LoadSavedGameCheckBox.Text = "Load saved game";
+            this.LoadSavedGameCheckBox.UseVisualStyleBackColor = true;
+            this.LoadSavedGameCheckBox.CheckedChanged += new System.EventHandler(this.LoadSavedGameCheckBox_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -426,9 +439,9 @@
             this.tabPreGame.ResumeLayout(false);
             this.tabPreGame.PerformLayout();
             this.tabMemory.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -467,6 +480,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button PauseResumeBtn;
+        private System.Windows.Forms.CheckBox LoadSavedGameCheckBox;
     }
 }
 

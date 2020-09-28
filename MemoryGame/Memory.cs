@@ -19,8 +19,8 @@ namespace MemoryGame
     {
         private bool GameIsFrozen { get; set; } = false;
         private bool IsPlayerOnesTurn { get; set; } = true;
-        public int SelectedTheme { get; set; } = 0;
         private List<CardPictureBox> Deck { get; set; }
+        private Files SaveGameFile = new Files(Path.Combine(Directory.GetCurrentDirectory(), "savegame.txt"));
         //Probably need to look for a way to dynamicly do this
         private Dictionary<int, List<CardNameAndImage>> ThemeImages { get; set; } = new Dictionary<int, List<CardNameAndImage>>()
         {
@@ -67,6 +67,8 @@ namespace MemoryGame
 
         };
 
+        public bool HasUnfinishedGame { get; set; } = false;
+        public int SelectedTheme { get; set; } = 0;
         public HighScore HighScores { get; private set; }
         public int Rows { get; set; } = 4;
         public int Collumns { get; set; } = 4;
@@ -86,10 +88,13 @@ namespace MemoryGame
         {
             this.Form1 = form1;
             this.Panel = panel;
-
             this.HighScores = new HighScore();
             this.Theme.Add(new KeyValuePair<int, string>(0, "Animals"));
             this.Theme.Add(new KeyValuePair<int, string>(1, "Lord Of The Rings"));
+
+            //Check if there is a savefile that isn't empty
+            if (this.SaveGameFile.GetFileContent().Length > 0)
+                this.HasUnfinishedGame = true;
         }
 
         /// <summary>
@@ -98,7 +103,6 @@ namespace MemoryGame
         public void StartGame()
         {
             this.PopulateDeck();
-            this.PauseGame();
         }
 
         /// <summary>
@@ -173,16 +177,20 @@ namespace MemoryGame
             gameState.Players = this.Players;
             gameState.SelectedCards = this.SelectedCards;
             string json = JsonConvert.SerializeObject(gameState, Formatting.Indented);
-            string path = Path.Combine(Directory.GetCurrentDirectory(), "savegame.txt");
             //TODO: clean this up and maybe add it to constructor/default value. Should we store multiple games or just one?
-            Files test = new Files(path);
-            test.Create();
-            test.WriteToFile(json);
+            this.SaveGameFile.Create();
+            this.SaveGameFile.WriteToFile(json);
         }
 
-        public void ResumeGame()
+        public void ResumeGame(bool loadFromSaveFile = false)
         {
             //TODO: Needs to load data from the savegame.txt 
+            if (loadFromSaveFile)
+            {
+                string json = this.SaveGameFile.GetFileContent();
+                dynamic gameState = new System.Dynamic.ExpandoObject();
+                gameState = JsonConvert.DeserializeObject(json);
+            }
             this.GameIsFrozen = false;
         }
 

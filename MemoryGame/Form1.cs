@@ -56,6 +56,10 @@ namespace MemoryGame
                 i++;
             }
             this.GenerateGameSizeDropDownOptions();
+            if (this.game.HasUnfinishedGame)
+                LoadSavedGameCheckBox.Visible = true;
+            else
+                LoadSavedGameCheckBox.Visible = false;
         }
 
         /// <summary>
@@ -230,6 +234,11 @@ namespace MemoryGame
                 this.game.ResumeGame();
                 PauseResumeBtn.Text = "Pause";
             }
+        }
+
+        private void LoadSavedGameCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            this.game.ResumeGame(loadFromSaveFile: true);
         }
         //<--------------------------------------------------------END NAVIGATION--------------------------------------------------------->
 
