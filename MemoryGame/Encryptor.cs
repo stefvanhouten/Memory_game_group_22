@@ -30,7 +30,7 @@ namespace Security
             using (RijndaelManaged rijAlg = new RijndaelManaged())
             {
                 // Create an encryptor to perform the stream transform
-                ICryptoTransform encryptor = rijAlg.CreateEncryptor(Password, IV);
+                ICryptoTransform encryptor = rijAlg.CreateEncryptor(Encoding.ASCII.GetBytes(Password), Encoding.ASCII.GetBytes(IV));
 
                 // Create the streams used for encryption
                 using (MemoryStream msEncrypt = new MemoryStream())
@@ -47,7 +47,7 @@ namespace Security
                 }
             }
 
-            return encrypted;
+            return System.Text.Encoding.UTF8.GetString(encrypted);
         }
 
         public string Decrypt(string encryptedInput)
@@ -61,7 +61,7 @@ namespace Security
             using (RijndaelManaged rijAlg = new RijndaelManaged())
             {
                 // Create a decryptor to perform the stream transform
-                ICryptoTransform decryptor = rijAlg.CreateDecryptor(Password, IV);
+                ICryptoTransform decryptor = rijAlg.CreateDecryptor(Encoding.ASCII.GetBytes(Password), Encoding.ASCII.GetBytes(IV));
 
                 // Create the streams used for decryption
                 using (MemoryStream msDecrypt = new MemoryStream(inputBytes))
