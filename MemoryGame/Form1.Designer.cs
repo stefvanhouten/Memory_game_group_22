@@ -46,6 +46,7 @@
             this.buttonThemeSelectionHome = new System.Windows.Forms.Button();
             this.labelThemeSelect = new System.Windows.Forms.Label();
             this.tabPreGame = new System.Windows.Forms.TabPage();
+            this.LoadSavedGameCheckBox = new System.Windows.Forms.CheckBox();
             this.GameSizeComboBox = new System.Windows.Forms.ComboBox();
             this.buttonStartMemoryGame = new System.Windows.Forms.Button();
             this.buttonPreGameHome = new System.Windows.Forms.Button();
@@ -61,7 +62,6 @@
             this.PlayerOneScoreLabel = new System.Windows.Forms.Label();
             this.CurrentPlayerPlayingLabel = new System.Windows.Forms.Label();
             this.PlayerTwoScoreLabel = new System.Windows.Forms.Label();
-            this.LoadSavedGameCheckBox = new System.Windows.Forms.CheckBox();
             this.tabHighScores.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tabHome.SuspendLayout();
@@ -256,6 +256,17 @@
             this.tabPreGame.Text = "tabPreGame";
             this.tabPreGame.UseVisualStyleBackColor = true;
             // 
+            // LoadSavedGameCheckBox
+            // 
+            this.LoadSavedGameCheckBox.AutoSize = true;
+            this.LoadSavedGameCheckBox.Location = new System.Drawing.Point(11, 126);
+            this.LoadSavedGameCheckBox.Name = "LoadSavedGameCheckBox";
+            this.LoadSavedGameCheckBox.Size = new System.Drawing.Size(111, 17);
+            this.LoadSavedGameCheckBox.TabIndex = 7;
+            this.LoadSavedGameCheckBox.Text = "Load saved game";
+            this.LoadSavedGameCheckBox.UseVisualStyleBackColor = true;
+            this.LoadSavedGameCheckBox.CheckedChanged += new System.EventHandler(this.LoadSavedGameCheckBox_CheckedChanged);
+            // 
             // GameSizeComboBox
             // 
             this.GameSizeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -408,17 +419,6 @@
             this.PlayerTwoScoreLabel.Size = new System.Drawing.Size(113, 13);
             this.PlayerTwoScoreLabel.TabIndex = 1;
             this.PlayerTwoScoreLabel.Text = "[PLAYER 2]: [SCORE]";
-            // 
-            // LoadSavedGameCheckBox
-            // 
-            this.LoadSavedGameCheckBox.AutoSize = true;
-            this.LoadSavedGameCheckBox.Location = new System.Drawing.Point(11, 126);
-            this.LoadSavedGameCheckBox.Name = "LoadSavedGameCheckBox";
-            this.LoadSavedGameCheckBox.Size = new System.Drawing.Size(111, 17);
-            this.LoadSavedGameCheckBox.TabIndex = 7;
-            this.LoadSavedGameCheckBox.Text = "Load saved game";
-            this.LoadSavedGameCheckBox.UseVisualStyleBackColor = true;
-            this.LoadSavedGameCheckBox.CheckedChanged += new System.EventHandler(this.LoadSavedGameCheckBox_CheckedChanged);
             // 
             // Form1
             // 
