@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace Security
 {
+    /// <summary>
+    /// Provides encryption and decryption for strings
+    /// </summary>
     class Encryptor
     {
         // Set the password

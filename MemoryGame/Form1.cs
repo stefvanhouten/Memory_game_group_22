@@ -18,6 +18,7 @@ namespace MemoryGame
         public delegate void SetCurrentPlayerCallback(string currentPlayer);
         public delegate void RedirectToHighScoresCallback();
         public delegate void ClearPanelsCallback();
+        public delegate void ShowLoadSaveGameCallback();
         private CheckBox lastChecked;
 
         public Form1()
@@ -56,6 +57,7 @@ namespace MemoryGame
                 i++;
             }
             this.GenerateGameSizeDropDownOptions();
+            this.ShowLoadGame();
         }
 
         /// <summary>
@@ -95,12 +97,31 @@ namespace MemoryGame
             }
         }
 
+        public void ShowLoadGame()
+        {
+            if (LoadSavedGameCheckBox.InvokeRequired)
+            {
+                this.Invoke(new ShowLoadSaveGameCallback(ShowLoadGame));
+            }
+            else
+            {
+                if (this.game.HasUnfinishedGame)
+                {
+                    LoadSavedGameCheckBox.Checked = false;
+                    LoadSavedGameCheckBox.Visible = true;
+                }
+                else
+                {
+                    LoadSavedGameCheckBox.Visible = false;
+                }
+            }
+        }
+
         public void RedirectToHighScores()
         {
             if (this.tabControl1.InvokeRequired)
             {
-                RedirectToHighScoresCallback redirect = new RedirectToHighScoresCallback(RedirectToHighScores);
-                this.Invoke(redirect);
+                this.Invoke(new RedirectToHighScoresCallback(RedirectToHighScores));
             }
             else
             {
@@ -216,6 +237,26 @@ namespace MemoryGame
         {
             tabControl1.SelectedTab = tabHome;
 
+        }
+
+        private void PauseResumeBtn_Click(object sender, EventArgs e)
+        {
+            if (PauseResumeBtn.Text.Contains("Pause"))
+            {
+                this.game.PauseGame();
+                PauseResumeBtn.Text = "Resume";
+            }
+            else
+            {
+                this.game.ResumeGame();
+                PauseResumeBtn.Text = "Pause";
+            }
+        }
+
+        private void LoadSavedGameCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            this.game.ResumeGame(loadFromSaveFile: true);
+            tabControl1.SelectedTab = tabMemory;
         }
         //<--------------------------------------------------------END NAVIGATION--------------------------------------------------------->
 

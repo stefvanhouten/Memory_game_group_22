@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace MemoryGame
 {
-    class GameOptions
+    /// <summary>
+    /// Template that the user can use to decide game size for their memory game
+    /// </summary>
+    struct GameOptions
     {
         public string Name { get; set; }
         public int Rows { get; set; }
@@ -18,7 +21,7 @@ namespace MemoryGame
                 return this.Rows * this.Columns;
             }
         }
-
+        //Method used to display the game size in ComboBox
         public override string ToString()
         {
             return this.Name;
