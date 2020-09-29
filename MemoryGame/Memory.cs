@@ -1,11 +1,17 @@
 ﻿using MemoryGame.Properties;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MemoryGame
 {
+
+ 
     /// <summary>
     /// Base class for the Memory game. 
     /// </summary>
@@ -13,8 +19,8 @@ namespace MemoryGame
     {
         private bool GameIsFrozen { get; set; } = false;
         private bool IsPlayerOnesTurn { get; set; } = true;
-        public int SelectedTheme { get; set; } = 0;
         private List<CardPictureBox> Deck { get; set; }
+        private Files SaveGameFile = new Files(Path.Combine(Directory.GetCurrentDirectory(), "savegame.txt"));
         //Probably need to look for a way to dynamicly do this
         private Dictionary<int, List<CardNameAndImage>> ThemeImages { get; set; } = new Dictionary<int, List<CardNameAndImage>>()
         {
@@ -61,6 +67,8 @@ namespace MemoryGame
 
         };
 
+        public bool HasUnfinishedGame { get; set; } = false;
+        public int SelectedTheme { get; set; } = 0;
         public HighScore HighScores { get; private set; }
         public int Rows { get; set; } = 4;
         public int Collumns { get; set; } = 4;
@@ -80,10 +88,13 @@ namespace MemoryGame
         {
             this.Form1 = form1;
             this.Panel = panel;
-
             this.HighScores = new HighScore();
             this.Theme.Add(new KeyValuePair<int, string>(0, "Animals"));
             this.Theme.Add(new KeyValuePair<int, string>(1, "Lord Of The Rings"));
+
+            //Check if there is a savefile that isn't empty
+            if (this.SaveGameFile.GetFileContent().Length > 0)
+                this.HasUnfinishedGame = true;
         }
 
         /// <summary>
@@ -146,8 +157,89 @@ namespace MemoryGame
             this.Form1.ClearPanels();
         }
 
-        private void PauseGame()
+        public void PauseGame()
         {
+            this.GameIsFrozen = true;
+            dynamic gameState = new System.Dynamic.ExpandoObject();
+            List<CardPictureBoxJson> jsonConvertableDeck = new List<CardPictureBoxJson>();
+
+            foreach (CardPictureBox card in this.Deck)
+            {
+                jsonConvertableDeck.Add(new CardPictureBoxJson() { Name = card.Name, IsSolved = card.IsSolved, PairName = card.PairName, HasBeenVisible = card.HasBeenVisible });
+            }
+
+            gameState.IsPlayerOnesTurn = this.IsPlayerOnesTurn;
+            gameState.SelectedTheme = this.SelectedTheme;
+            gameState.Deck = jsonConvertableDeck;
+            gameState.Rows = this.Rows;
+            gameState.Collumns = this.Collumns;
+            gameState.Players = this.Players;
+            gameState.SelectedCards = this.SelectedCards;
+            string json = JsonConvert.SerializeObject(gameState, Formatting.Indented);
+            //TODO: clean this up and maybe add it to constructor/default value. Should we store multiple games or just one?
+            this.SaveGameFile.Create();
+            this.SaveGameFile.WriteToFile(json);
+        }
+
+        /// <summary>
+        /// Resumes paused game. If it needs to resume game from savefile load file contents back into the memory class
+        /// and rebuild the deck. 
+        /// </summary>
+        /// <param name="loadFromSaveFile"></param>
+        public void ResumeGame(bool loadFromSaveFile = false)
+        {
+            if (loadFromSaveFile)
+            {
+                //Since we are bypassing this.Populatedeck() we need to do some things again
+                //Create new empty lists for deck and selectedcards
+                this.Deck = new List<CardPictureBox>();
+                this.SelectedCards = new List<CardPictureBox>();
+                //Use a dynamic object for the next part, could also create a custom class for this
+                dynamic gameState = new System.Dynamic.ExpandoObject();
+                //Load the data from the savegamefile
+                string json = this.SaveGameFile.GetFileContent();
+                //Deserialize the json
+                gameState = JsonConvert.DeserializeObject(json);
+                //For the next part we need to cast/convert all properties that are stored in our dyanmic list to the appropriate type
+                this.IsPlayerOnesTurn = (bool)gameState.IsPlayerOnesTurn;
+                this.SelectedTheme = (int)gameState.SelectedTheme;
+                this.Rows = (int)gameState.Rows;
+                this.Collumns = (int)gameState.Collumns;
+                this.Players = gameState.Players.ToObject<List<Player>>().ToArray(); //Seems dirty 
+                this.SelectedCards = gameState.SelectedCards.ToObject<List<CardPictureBox>>(); 
+                //It is important that we style our deck after we loaded in all the settings, otherwise we get a default 4*4 playing field
+                //even though the settings may state otherwise
+                this.ConfigurateDeckStyling();
+                List<CardPictureBoxJson> deck = new List<CardPictureBoxJson>();
+                deck = gameState.Deck.ToObject<List<CardPictureBoxJson>>();
+                foreach (CardPictureBoxJson jsonCard in deck)
+                {
+                    CardNameAndImage pairNameAndImage = this.ThemeImages[this.SelectedTheme].Find(item => item.Name == jsonCard.PairName);
+                    CardPictureBox card = new CardPictureBox()
+                    {
+                        Dock = DockStyle.Fill,
+                        SizeMode = PictureBoxSizeMode.StretchImage,
+                        Name = jsonCard.Name,
+                        IsSolved = jsonCard.IsSolved,
+                        HasBeenVisible = jsonCard.HasBeenVisible,
+                        PairName = pairNameAndImage.Name,
+                        CardImage = pairNameAndImage.Resource,
+                        Image = (jsonCard.IsSolved) ? pairNameAndImage.Resource : null //Show image based on if it was solved 
+                    };
+                    card.Click += this.CardClicked;
+                    this.Deck.Add(card);
+                }
+                foreach (CardPictureBox card in this.Deck)
+                {
+                    this.Panel.Controls.Add(card);
+                }
+            }
+            //Remove the savegame from the savefile to prevent abuse
+            this.SaveGameFile.WriteToFile("", overwrite: true);
+            this.HasUnfinishedGame = false;
+            this.Form1.ShowLoadGame();
+            //Pass back control to the player
+            this.GameIsFrozen = false;
         }
 
         /// <summary>
