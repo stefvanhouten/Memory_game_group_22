@@ -424,7 +424,7 @@
             this.Controls.Add(this.tabControl1);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Memory game";
             this.tabHighScores.ResumeLayout(false);
             this.tabHighScores.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.HighScoresGridView)).EndInit();
