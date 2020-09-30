@@ -33,6 +33,8 @@
             this.tabHighScores = new System.Windows.Forms.TabPage();
             this.buttonHighScoresHome = new System.Windows.Forms.Button();
             this.HighScoresGridView = new System.Windows.Forms.DataGridView();
+            this.Player = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Score = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.labelHighScores = new System.Windows.Forms.Label();
             this.tabHome = new System.Windows.Forms.TabPage();
             this.buttonSelectTheme = new System.Windows.Forms.Button();
@@ -59,8 +61,6 @@
             this.PlayerOneScoreLabel = new System.Windows.Forms.Label();
             this.CurrentPlayerPlayingLabel = new System.Windows.Forms.Label();
             this.PlayerTwoScoreLabel = new System.Windows.Forms.Label();
-            this.Player = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Score = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabHighScores.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.HighScoresGridView)).BeginInit();
             this.tabHome.SuspendLayout();
@@ -117,6 +117,20 @@
             this.HighScoresGridView.ReadOnly = true;
             this.HighScoresGridView.Size = new System.Drawing.Size(647, 410);
             this.HighScoresGridView.TabIndex = 1;
+            // 
+            // Player
+            // 
+            this.Player.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Player.HeaderText = "Player";
+            this.Player.Name = "Player";
+            this.Player.ReadOnly = true;
+            // 
+            // Score
+            // 
+            this.Score.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Score.HeaderText = "Score";
+            this.Score.Name = "Score";
+            this.Score.ReadOnly = true;
             // 
             // labelHighScores
             // 
@@ -401,18 +415,6 @@
             this.PlayerTwoScoreLabel.Size = new System.Drawing.Size(113, 13);
             this.PlayerTwoScoreLabel.TabIndex = 1;
             this.PlayerTwoScoreLabel.Text = "[PLAYER 2]: [SCORE]";
-            // 
-            // Player
-            // 
-            this.Player.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Player.HeaderText = "Player";
-            this.Player.Name = "Player";
-            // 
-            // Score
-            // 
-            this.Score.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Score.HeaderText = "Score";
-            this.Score.Name = "Score";
             // 
             // Form1
             // 
