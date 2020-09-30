@@ -18,5 +18,6 @@ namespace MemoryGame
         public string PairName { get; set; }
         public bool IsSolved { get; set; } = false;
         public bool HasBeenVisible { get; set; } = false;
+        public bool IsSelected { get; set; } = false;
     }
 }
