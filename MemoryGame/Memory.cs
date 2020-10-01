@@ -1,5 +1,7 @@
 ﻿using MemoryGame.Properties;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -87,9 +89,7 @@ namespace MemoryGame
         /// </summary>
         public void StartGame()
         {
-            // todo
-            var soundPlayer = new Sound();
-            soundPlayer.Play(Resources.testsound);
+            Sound.StartBackgroundMusic(this.SelectedTheme);
             this.PopulateDeck();
         }
 
