@@ -118,14 +118,20 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="aragorn" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\LOTR\aragorn.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="argonath" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\LOTR\argonath.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="aussie" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\Animals\aussie.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="BadBoi" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\images\LOTR\BadBoi.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="black_wolf" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\Animals\black wolf.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="boromir" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\LOTR\boromir.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="cavia" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\Animals\cavia.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -142,29 +148,62 @@
   <data name="elephant" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\Animals\elephant.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Ent" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\images\LOTR\Ent.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="elrond" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\LOTR\elrond.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Frodo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\images\LOTR\Frodo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="eomer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\LOTR\eomer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Eowyn" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\LOTR\Eowyn.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="faramir" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\LOTR\faramir.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="frodo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\LOTR\frodo.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Galadriel" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\LOTR\Galadriel.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Gandalf" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\LOTR\Gandalf.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Gandalf1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\LOTR\Gandalf.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="giraffe" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\Animals\giraffe.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="gollum" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\LOTR\gollum.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="gorilla" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\Animals\gorilla.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="gothmog" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\LOTR\gothmog.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="high_elves" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\LOTR\high elves.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="horse" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\Animals\horse.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="legolas" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\LOTR\legolas.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="merry_pippin" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\LOTR\merry pippin.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="monkey" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\Animals\monkey.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="oerangutan" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\Animals\oerangutan.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="one_ring" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\LOTR\one ring.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="orca" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\Animals\orca.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -181,6 +220,9 @@
   <data name="rabbit" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\Animals\rabbit.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="ranger" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\LOTR\ranger.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="red_canary" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\Animals\red canary.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -190,8 +232,8 @@
   <data name="rhino" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\Animals\rhino.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ring" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\images\LOTR\ring.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="samwise" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\LOTR\samwise.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="seal" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\Animals\seal.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -202,22 +244,31 @@
   <data name="sloth" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\Animals\sloth.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Smeegle" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\images\LOTR\Smeegle.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="smaug" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\LOTR\smaug.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="SomeDwarf" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\images\LOTR\SomeDwarf.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="tauriel" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\LOTR\tauriel.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="SwordWieldingLotrGuy" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\images\LOTR\SwordWieldingLotrGuy.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="thranduil" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\LOTR\thranduil.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="tiger" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\Animals\tiger.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="treebeard" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\LOTR\treebeard.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="troll" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\LOTR\troll.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="turtle" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\Animals\turtle.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ugly_fish" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\Animals\ugly fish.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="witch_king" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\LOTR\witch king.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
