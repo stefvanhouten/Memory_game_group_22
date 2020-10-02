@@ -1,17 +1,14 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
+using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.IO;
 
 namespace MemoryGame
 {
     /// <summary>
     /// Template for a HighScore listing. 
     /// </summary>
-    class HighScoreListing
+    struct HighScoreListing
     {
         public string Name { get; private set; }
         public int Score { get; private set; }
@@ -34,9 +31,8 @@ namespace MemoryGame
     /// Keeps track of the memory game current highest scoring players.
     /// </summary>
     class HighScore
-    { 
+    {
         public List<HighScoreListing> highScores { get; set; }
-        public static Files HighScorePath { get; private set; }
         public HighScore()
         {
             /*  The highscores class is used to populate the table in the HighScoresTab in tabcontrol.
@@ -72,7 +68,7 @@ namespace MemoryGame
             HighScoreListing listing = new HighScoreListing(player.Name, player.ScoreBoard.Score);
             this.highScores.Add(listing);
             string json = JsonConvert.SerializeObject(this.highScores);
-            //HighScore.HighScorePath.WriteToFile(json);
+            Files.WriteToFile((Path.Combine(Directory.GetCurrentDirectory(), "highscores.txt")), json);
         }
 
         //is going to need a return type, for now void for the sake of it
@@ -92,22 +88,5 @@ namespace MemoryGame
             // Re-arrange the HighScores from high to low or low to high
             //int limit returns the highscores from 0 to "limit"
         }
-
-        public static void SetPath(string directoryPath, string fileName)
-        {
-            //specify path to required directory
-            //create the directory
-            Dir SpecifiedDir = new Dir(directoryPath);
-            SpecifiedDir.Create();
-
-            //specify path to file
-            //create file
-            Files SpecifiedFile = new Files($"{SpecifiedDir.GetDirPath()}\\{fileName}");
-            SpecifiedFile.Create();
-
-            //assign filepath to property
-            HighScore.HighScorePath = SpecifiedFile;
-        }
-        
     }
 }
