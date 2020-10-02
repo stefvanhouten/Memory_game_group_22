@@ -13,81 +13,71 @@ namespace Security
     /// </summary>
     class Encryptor
     {
+        // Set the password
         static readonly string Password = "RandomgEneraTeDsTriNg";
-        static readonly string Salt = "PrettySalty";
+
+        // Set the IV (initialization vector) value
         static readonly string IV = "@5B2C6G2s5H2F1p0";
 
-        public string Encrypt(string input)
+        public string Encrypt(string rawInput)
         {
-            byte[] encryptedText;
+            // Will contain the encrypted value later
+            byte[] encrypted;
 
-            //Gets the byte array values if the input text
-            byte[] inputBytes = Encoding.UTF8.GetBytes(input);
+            // Gets the input string and converts it to a byte array
+            byte[] inputBytes = Encoding.UTF8.GetBytes(rawInput);
 
-            //Intitializes a new Rfc2898DeriveBytes class with a password and the salt. It generates the key we'll be using.
-            byte[] Key = new Rfc2898DeriveBytes(Password, Encoding.ASCII.GetBytes(Salt)).GetBytes(256 / 8);
-
-            //Creates the key we will be using for the actual encryptor. Which it'll use to encrypt and decrypt data HEAD
-            var encryptorkey = new RijndaelManaged() { Mode = CipherMode.CBC, Padding = PaddingMode.Zeros };
-
-            //Sets the actual encryptor with the key and IV
-            var encryptor = encryptorkey.CreateEncryptor(Key, Encoding.ASCII.GetBytes(IV));
-
-            //Opens a new memoryStream
-            using (var memStream = new MemoryStream())
+            using (RijndaelManaged rijAlg = new RijndaelManaged())
             {
-                //Uses the memoryStream and the encryptor to create a CryptoStream
-                using (var cryptoStream = new CryptoStream(memStream, encryptor, CryptoStreamMode.Write))
+                // Create an encryptor to perform the stream transform
+                ICryptoTransform encryptor = rijAlg.CreateEncryptor(Encoding.ASCII.GetBytes(Password), Encoding.ASCII.GetBytes(IV));
+
+                // Create the streams used for encryption
+                using (MemoryStream msEncrypt = new MemoryStream())
                 {
-                    //Writes the inputtext in bytes to the stream at 0 position
-                    cryptoStream.Write(inputBytes, 0, inputBytes.Length);
-
-                    //Flushes the changes
-                    cryptoStream.FlushFinalBlock();
-
-                    //changes the stream data type to a byte array
-                    encryptedText = memStream.ToArray();
-
-                    //we close both streams
-                    cryptoStream.Close();
+                    using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
+                    {
+                        using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
+                        {
+                            //Write all data to the stream
+                            swEncrypt.Write(inputBytes);
+                        }
+                        encrypted = msEncrypt.ToArray();
+                    }
                 }
-                memStream.Close();
             }
-            // and return the encrypted string
-            return Convert.ToBase64String(encryptedText);
+
+            return System.Text.Encoding.UTF8.GetString(encrypted);
         }
 
-        public string Decrypt(string cipherString)
+        public string Decrypt(string encryptedInput)
         {
-            //We convert the cipher to a byte array
-            byte[] cipherBytes = Convert.FromBase64String(cipherString);
+            // Will contain the decrypted value later
+            string decrypted = null;
 
-            //We set the return as a byte array with the length of the cipher bytes
-            byte[] returnBytes = new byte[cipherBytes.Length];
+            // Gets the input string and converts it to a byte array
+            byte[] inputBytes = Encoding.UTF8.GetBytes(encryptedInput);
 
-            //We generate the same keybytes so we can decrypt the data since we have the same iv salt and pass
-            byte[] KeyBytes = new Rfc2898DeriveBytes(Password, Encoding.ASCII.GetBytes(Salt)).GetBytes(256 / 8);
+            using (RijndaelManaged rijAlg = new RijndaelManaged())
+            {
+                // Create a decryptor to perform the stream transform
+                ICryptoTransform decryptor = rijAlg.CreateDecryptor(Encoding.ASCII.GetBytes(Password), Encoding.ASCII.GetBytes(IV));
 
-            RijndaelManaged RijndaelManaged = new RijndaelManaged() { Mode = CipherMode.CBC, Padding = PaddingMode.None };
+                // Create the streams used for decryption
+                using (MemoryStream msDecrypt = new MemoryStream(inputBytes))
+                {
+                    using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
+                    {
+                        using (StreamReader srDecrypt = new StreamReader(csDecrypt))
+                        {
+                            // Read the decrypted bytes from the decrypting stream and place them in a string
+                            decrypted = srDecrypt.ReadToEnd();
+                        }
+                    }
+                }
+            }
 
-            //We use the same generation parameters to generate the same encryptor (decryptor)
-            var decryptor = RijndaelManaged.CreateDecryptor(KeyBytes, Encoding.ASCII.GetBytes(IV));
-
-            //We set a new memorystream with the cipher in it
-            var memoryStream = new MemoryStream(cipherBytes);
-
-            //We set a new cryptoStream with the memoreyStream and decryptor in it (the actual decoding also happends here)
-            var cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read);
-
-            //We set the character count of the decrypted string
-            int decryptedByteCount = cryptoStream.Read(returnBytes, 0, returnBytes.Length);
-
-            //We close both streams
-            memoryStream.Close();
-            cryptoStream.Close();
-
-            //And return the decoded data as a string (we remove the end byte "\0")
-            return Encoding.UTF8.GetString(returnBytes, 0, decryptedByteCount).TrimEnd("\0".ToCharArray());
+            return decrypted;
         }
     }
 }
