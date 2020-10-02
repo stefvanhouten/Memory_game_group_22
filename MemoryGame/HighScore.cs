@@ -72,7 +72,7 @@ namespace MemoryGame
             HighScoreListing listing = new HighScoreListing(player.Name, player.ScoreBoard.Score);
             this.highScores.Add(listing);
             string json = JsonConvert.SerializeObject(this.highScores);
-            HighScore.HighScorePath.WriteToFile(json);
+            //HighScore.HighScorePath.WriteToFile(json);
         }
 
         //is going to need a return type, for now void for the sake of it
