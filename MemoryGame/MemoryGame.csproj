@@ -99,9 +99,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="images\Animals\banana.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="images\Animals\donkey.jpg" />
   </ItemGroup>
   <ItemGroup>
@@ -124,27 +121,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="images\Animals\zebra.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="images\Animals\book.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="images\Animals\bug.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="images\Animals\car.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="images\Animals\monkey.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="images\Animals\tornado.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="images\Animals\tree.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="images\Animals\wine.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="images\LOTR\BadBoi.jpg" />
