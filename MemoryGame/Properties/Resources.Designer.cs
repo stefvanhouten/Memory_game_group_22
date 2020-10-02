@@ -81,6 +81,16 @@ namespace MemoryGame.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] bangerbeat {
+            get {
+                object obj = ResourceManager.GetObject("bangerbeat", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap book {
@@ -111,6 +121,16 @@ namespace MemoryGame.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] correct {
+            get {
+                object obj = ResourceManager.GetObject("correct", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap Ent {
@@ -137,6 +157,16 @@ namespace MemoryGame.Properties {
             get {
                 object obj = ResourceManager.GetObject("Gandalf", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] lotr {
+            get {
+                object obj = ResourceManager.GetObject("lotr", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         
@@ -187,15 +217,6 @@ namespace MemoryGame.Properties {
             get {
                 object obj = ResourceManager.GetObject("SwordWieldingLotrGuy", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
-        /// </summary>
-        internal static System.IO.UnmanagedMemoryStream testsound {
-            get {
-                return ResourceManager.GetStream("testsound", resourceCulture);
             }
         }
         

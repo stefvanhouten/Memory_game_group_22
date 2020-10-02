@@ -89,6 +89,7 @@ namespace MemoryGame
         /// </summary>
         public void StartGame()
         {
+            //Sound.PlayEffect(Resources.bangerbeat);
             Sound.StartBackgroundMusic(this.SelectedTheme);
             this.PopulateDeck();
         }
@@ -190,6 +191,7 @@ namespace MemoryGame
         {
             if (this.SelectedCards[0].PairName == this.SelectedCards[1].PairName)
             {
+                Sound.PlayEffect(Resources.correct);
                 foreach (CardPictureBox card in this.SelectedCards)
 	            {
                     //When we have a matching pair mark them as solved to take them out of the game
