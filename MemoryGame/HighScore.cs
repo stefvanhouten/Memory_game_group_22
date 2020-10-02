@@ -33,7 +33,6 @@ namespace MemoryGame
     class HighScore
     {
         public List<HighScoreListing> highScores { get; set; }
-        public Files HighScorePath { get; private set; } = new Files(Path.Combine(Directory.GetCurrentDirectory(), "highscores.txt"));
         public HighScore()
         {
             /*  The highscores class is used to populate the table in the HighScoresTab in tabcontrol.
@@ -69,7 +68,7 @@ namespace MemoryGame
             HighScoreListing listing = new HighScoreListing(player.Name, player.ScoreBoard.Score);
             this.highScores.Add(listing);
             string json = JsonConvert.SerializeObject(this.highScores);
-            this.HighScorePath.WriteToFile(json);
+            Files.WriteToFile((Path.Combine(Directory.GetCurrentDirectory(), "highscores.txt")), json);
         }
 
         //is going to need a return type, for now void for the sake of it
@@ -89,22 +88,5 @@ namespace MemoryGame
             // Re-arrange the HighScores from high to low or low to high
             //int limit returns the highscores from 0 to "limit"
         }
-
-        public void SetPath(string directoryPath, string fileName)
-        {
-            //specify path to required directory
-            //create the directory
-            Dir SpecifiedDir = new Dir(directoryPath);
-            SpecifiedDir.Create();
-
-            //specify path to file
-            //create file
-            Files SpecifiedFile = new Files($"{SpecifiedDir.GetDirPath()}\\{fileName}");
-            SpecifiedFile.Create();
-
-            //assign filepath to property
-            this.HighScorePath = SpecifiedFile;
-        }
-
     }
 }
