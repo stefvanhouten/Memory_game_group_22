@@ -155,6 +155,7 @@ namespace MemoryGame
                 {
                     this.HighScoresGridView.Rows.Add(highScoreListing.Name, highScoreListing.Score);
                 }
+                this.HighScoresGridView.RowCount = 20;
             }
         }
         /// <summary>
