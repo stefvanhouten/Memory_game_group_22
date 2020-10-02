@@ -1,0 +1,264 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E785E914-D587-4A3F-9E89-387626F8121F}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>MemoryGame</RootNamespace>
+    <AssemblyName>MemoryGame</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CardNameAndImage.cs" />
+    <Compile Include="CardPictureBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Dir.cs" />
+    <Compile Include="Encryptor.cs" />
+    <Compile Include="Files.cs" />
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GameOptions.cs" />
+    <Compile Include="HighScore.cs" />
+    <Compile Include="Memory.cs" />
+    <Compile Include="MyExtensions.cs" />
+    <Compile Include="obj\Debug\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs" />
+    <Compile Include="Player.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ScoreBoard.cs" />
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="obj\Debug\MemoryGame.Form1.resources" />
+    <EmbeddedResource Include="obj\Debug\MemoryGame.Properties.Resources.resources" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <None Include="obj\Debug\MemoryGame.csproj.CoreCompileInputs.cache" />
+    <None Include="obj\Debug\MemoryGame.csproj.GenerateResource.cache" />
+    <None Include="obj\Debug\MemoryGame.csprojAssemblyReference.cache" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\Animals\banana.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\Animals\donkey.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\Animals\monkey.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\Animals\racoon.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\Animals\ram.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\Animals\spider.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\Animals\tiger.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\Animals\wolf.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\Animals\zebra.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\Animals\book.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\Animals\bug.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\Animals\car.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\Animals\monkey.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\Animals\tornado.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\Animals\tree.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\Animals\wine.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\LOTR\BadBoi.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\LOTR\Ent.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\LOTR\Frodo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\LOTR\Gandalf.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\LOTR\ring.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\LOTR\Smeegle.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\LOTR\SomeDwarf.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\LOTR\SwordWieldingLotrGuy.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="images\Animals\041418_reviews_animals_main.jpg" />
+    <Content Include="images\Animals\112402-rabbit-lucky-animals-510x600.jpg" />
+    <Content Include="images\Animals\14672787_web1_Orca-Valdes.jpg" />
+    <Content Include="images\Animals\16SCI-WAR-01-superJumbo.jpg" />
+    <Content Include="images\Animals\381b32629f927376de5b3e3b8fd207c0.jpg" />
+    <Content Include="images\Animals\502e4a1e-0dc0-4d6c-a580-70c6bdfc47fa.jpg" />
+    <Content Include="images\Animals\5Bla3W39.png" />
+    <None Include="images\Animals\aussie.jpg" />
+    <None Include="images\Animals\black wolf.jpg" />
+    <Content Include="images\Animals\c3npbx.jpg" />
+    <None Include="images\Animals\cavia.jpg" />
+    <Content Include="images\Animals\cavia_gras2.jpg" />
+    <None Include="images\Animals\cheetah.jpg" />
+    <None Include="images\Animals\deer.png" />
+    <Content Include="images\Animals\dog-606281_1920-1024x768.jpg" />
+    <None Include="images\Animals\egel.jpg" />
+    <None Include="images\Animals\elephant.jpg" />
+    <Content Include="images\Animals\file-20180627-112641-idgmo2.jpg" />
+    <Content Include="images\Animals\GettyImages-1186139572-5116e77daa4a4c27a8821329bd784504.jpg" />
+    <Content Include="images\Animals\gettyimages-168504892-1568303467.png" />
+    <Content Include="images\Animals\GettyImages-dv735012-0663e2057be948d1b8a906c8fdfa97a2.jpg" />
+    <None Include="images\Animals\giraffe.jpg" />
+    <None Include="images\Animals\gorilla.jpg" />
+    <Content Include="images\Animals\Great-White-Shark-Smile.jpg" />
+    <None Include="images\Animals\horse.jpg" />
+    <Content Include="images\Animals\im-218281.jpg" />
+    <Content Include="images\Animals\janet-the-polar-bear-nanuk-polar-bear-lodge-george-turner-photo.jpg" />
+    <Content Include="images\Animals\love-animals-e1558315672833-new.jpg" />
+    <Content Include="images\Animals\MARK_GLOVER_2009B_194971.jpg" />
+    <Content Include="images\Animals\NationalGeographic_1561927_16x9.jpg" />
+    <None Include="images\Animals\oerangutan.jpg" />
+    <None Include="images\Animals\orca.jpg" />
+    <None Include="images\Animals\parrot.jpg" />
+    <None Include="images\Animals\penguin.jpg" />
+    <None Include="images\Animals\polar bear.jpg" />
+    <None Include="images\Animals\rabbit.jpg" />
+    <Content Include="images\Animals\red canary.jpg" />
+    <None Include="images\Animals\red panda.jpg" />
+    <None Include="images\Animals\rhino.jpg" />
+    <Content Include="images\Animals\rome-wild-animals-reclaim-palatine-hill.jpg" />
+    <Content Include="images\Animals\s960_pexels-frans-van-heerden-802112.jpg" />
+    <None Include="images\Animals\seal.jpg" />
+    <None Include="images\Animals\shark.jpg" />
+    <None Include="images\Animals\sloth.jpg" />
+    <None Include="images\Animals\tiger.png" />
+    <None Include="images\Animals\turtle.jpg" />
+    <None Include="images\Animals\ugly fish.jpg" />
+    <Content Include="images\Animals\xrainbowlorikeet-2.jpg.pagespeed.ic.ePoxQcNwjc.jpg" />
+    <Content Include="images\Animals\XZHuHLNb_400x400.jpg" />
+    <Content Include="images\Animals\__opt__aboutcom__coeus__resources__content_migration__mnn__images__2016__09__cute-baby-gorilla-f93adf4bb23f440abf18448456e1c435.jpg" />
+    <Content Include="images\LOTR\LOTR\16155_1920x1080.jpg" />
+    <Content Include="images\LOTR\LOTR\28397b01e582052cd52850bc4299d337.jpg" />
+    <Content Include="images\LOTR\LOTR\28b98f7cdce838278d683d3b809c8f1e.jpg" />
+    <Content Include="images\LOTR\LOTR\2c8287f8-7d84-11e6-8163-e23f72623fcf.jpg" />
+    <Content Include="images\LOTR\LOTR\42686906a7bfd5e4acd29eb42df25bd7.jpg" />
+    <Content Include="images\LOTR\LOTR\6f0e2103d5e221e10f15f67be24ac563.jpg" />
+    <Content Include="images\LOTR\LOTR\7e47327e-d9f7-4c17-a665-c03f548f090f.png" />
+    <Content Include="images\LOTR\LOTR\a8d8d9876c12dd49ac8fb28d704e8871.jpg" />
+    <Content Include="images\LOTR\LOTR\ad18b2d132f0d99ebcd17c7684112a73.jpg" />
+    <Content Include="images\LOTR\LOTR\c9204f7bcf022e188b3fa3568eda9c8e.jpg" />
+    <Content Include="images\LOTR\LOTR\DOiAi2WUEAE3A1Y.0.jpg" />
+    <Content Include="images\LOTR\LOTR\efbe10798f1bc561d785015251fc4e9b.jpg" />
+    <Content Include="images\LOTR\LOTR\Elrond11.jpg" />
+    <Content Include="images\LOTR\LOTR\Eomer_-_Close_up.PNG.png" />
+    <Content Include="images\LOTR\LOTR\Eowyn.jpg" />
+    <Content Include="images\LOTR\LOTR\Faramir_in_Two_Towers.png" />
+    <Content Include="images\LOTR\LOTR\Galadriel.jpg" />
+    <Content Include="images\LOTR\LOTR\Gandalf.jpg" />
+    <Content Include="images\LOTR\LOTR\Gimli-is-a-Joke.jpg" />
+    <Content Include="images\LOTR\LOTR\Hobbit-Smaug-Poster-Legolas-header.jpg" />
+    <Content Include="images\LOTR\LOTR\icm_fullxfull.136120005_ijj0d54yu5cggokow00k_1024x1024%402x.jpg" />
+    <Content Include="images\LOTR\LOTR\Lieutenant_Gothmog.jpg" />
+    <Content Include="images\LOTR\LOTR\lord-of-the-rings-sean-bean-boromir-1584636601.jpg" />
+    <Content Include="images\LOTR\LOTR\samwise.jpg" />
+    <Content Include="images\LOTR\LOTR\Screen_Shot_2016-08-11_at_1.01.20_PM.png" />
+    <Content Include="obj\Debug\MemoryGame.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\Debug\MemoryGame.exe" />
+    <Content Include="obj\Debug\MemoryGame.pdb" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\" />
+    <Folder Include="obj\Debug\TempPE\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
