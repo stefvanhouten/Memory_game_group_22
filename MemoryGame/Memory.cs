@@ -21,7 +21,6 @@ namespace MemoryGame
         private bool GameIsFrozen { get; set; } = false;
         private bool IsPlayerOnesTurn { get; set; } = true;
         private List<CardPictureBox> Deck { get; set; }
-        private readonly Files SaveGameFile = new Files(Path.Combine(Directory.GetCurrentDirectory(), "savegame.txt"));
         //Probably need to look for a way to dynamicly do this
         private Dictionary<int, List<CardNameAndImage>> ThemeImages { get; set; } = new Dictionary<int, List<CardNameAndImage>>()
         {
@@ -94,7 +93,8 @@ namespace MemoryGame
             this.Theme.Add(new KeyValuePair<int, string>(1, "Lord Of The Rings"));
 
             //Check if there is a savefile that isn't empty
-            if (this.SaveGameFile.GetFileContent().Length > 0)
+            
+            if (Files.GetFileContent(Path.Combine(Directory.GetCurrentDirectory(), "savegame.txt")).Length > 0)
                 this.HasUnfinishedGame = true;
         }
 
@@ -185,8 +185,8 @@ namespace MemoryGame
             gameState.Players = this.Players;
             string json = JsonConvert.SerializeObject(gameState, Formatting.Indented);
             //TODO: clean this up and maybe add it to constructor/default value. Should we store multiple games or just one?
-            this.SaveGameFile.Create();
-            this.SaveGameFile.WriteToFile(json);
+            Files.Create(Path.Combine(Directory.GetCurrentDirectory(), "savegame.txt"));
+            Files.WriteToFile(Path.Combine(Directory.GetCurrentDirectory(), "savegame.txt"), json);
         }
 
         /// <summary>
@@ -205,7 +205,7 @@ namespace MemoryGame
                 //Use a dynamic object for the next part, could also create a custom class for this
                 dynamic gameState = new System.Dynamic.ExpandoObject();
                 //Load the data from the savegamefile
-                string json = this.SaveGameFile.GetFileContent();
+                string json = Files.GetFileContent(Path.Combine(Directory.GetCurrentDirectory(), "savegame.txt"));
                 //Deserialize the json
                 gameState = JsonConvert.DeserializeObject(json);
                 //For the next part we need to cast/convert all properties that are stored in our dyanmic list to the appropriate type
@@ -249,7 +249,7 @@ namespace MemoryGame
                 }
             }
             //Remove the savegame from the savefile to prevent abuse
-            this.SaveGameFile.WriteToFile("", overwrite: true);
+            Files.WriteToFile(Path.Combine(Directory.GetCurrentDirectory(), "savegame.txt"), "", overwrite: true);
             this.HasUnfinishedGame = false;
             this.Form1.ShowLoadGameCheckbox();
             //Pass back control to the player
