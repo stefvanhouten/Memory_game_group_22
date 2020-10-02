@@ -9,7 +9,7 @@ namespace MemoryGame
     /// <summary>
     /// Base class for a player object in the memory game
     /// </summary>
-    class Player
+    struct Player
     {
         public string Name { get; private set; }
         public ScoreBoard ScoreBoard { get; private set; }

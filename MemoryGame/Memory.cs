@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -20,7 +21,6 @@ namespace MemoryGame
         private bool GameIsFrozen { get; set; } = false;
         private bool IsPlayerOnesTurn { get; set; } = true;
         private List<CardPictureBox> Deck { get; set; }
-        private Files SaveGameFile = new Files(Path.Combine(Directory.GetCurrentDirectory(), "savegame.txt"));
         //Probably need to look for a way to dynamicly do this
         private Dictionary<int, List<CardNameAndImage>> ThemeImages { get; set; } = new Dictionary<int, List<CardNameAndImage>>()
         {
@@ -93,7 +93,8 @@ namespace MemoryGame
             this.Theme.Add(new KeyValuePair<int, string>(1, "Lord Of The Rings"));
 
             //Check if there is a savefile that isn't empty
-            if (this.SaveGameFile.GetFileContent().Length > 0)
+            
+            if (Files.GetFileContent(Path.Combine(Directory.GetCurrentDirectory(), "savegame.txt")).Length > 0)
                 this.HasUnfinishedGame = true;
         }
 
@@ -155,6 +156,7 @@ namespace MemoryGame
             }
             this.Form1.RedirectToHighScores();
             this.Form1.ClearPanels();
+            this.Form1.UpdateHighScoresTable();
         }
 
         public void PauseGame()
@@ -162,10 +164,17 @@ namespace MemoryGame
             this.GameIsFrozen = true;
             dynamic gameState = new System.Dynamic.ExpandoObject();
             List<CardPictureBoxJson> jsonConvertableDeck = new List<CardPictureBoxJson>();
+            List<CardPictureBoxJson> jsonConvertableSelectedCards = new List<CardPictureBoxJson>();
 
             foreach (CardPictureBox card in this.Deck)
             {
-                jsonConvertableDeck.Add(new CardPictureBoxJson() { Name = card.Name, IsSolved = card.IsSolved, PairName = card.PairName, HasBeenVisible = card.HasBeenVisible });
+                jsonConvertableDeck.Add(new CardPictureBoxJson() { 
+                    Name = card.Name, 
+                    IsSolved = card.IsSolved, 
+                    PairName = card.PairName, 
+                    HasBeenVisible = card.HasBeenVisible ,
+                    IsSelected = this.SelectedCards.Any(c => c.Name == card.Name)
+                });
             }
 
             gameState.IsPlayerOnesTurn = this.IsPlayerOnesTurn;
@@ -174,11 +183,10 @@ namespace MemoryGame
             gameState.Rows = this.Rows;
             gameState.Collumns = this.Collumns;
             gameState.Players = this.Players;
-            gameState.SelectedCards = this.SelectedCards;
             string json = JsonConvert.SerializeObject(gameState, Formatting.Indented);
             //TODO: clean this up and maybe add it to constructor/default value. Should we store multiple games or just one?
-            this.SaveGameFile.Create();
-            this.SaveGameFile.WriteToFile(json);
+            Files.Create(Path.Combine(Directory.GetCurrentDirectory(), "savegame.txt"));
+            Files.WriteToFile(Path.Combine(Directory.GetCurrentDirectory(), "savegame.txt"), json);
         }
 
         /// <summary>
@@ -197,7 +205,7 @@ namespace MemoryGame
                 //Use a dynamic object for the next part, could also create a custom class for this
                 dynamic gameState = new System.Dynamic.ExpandoObject();
                 //Load the data from the savegamefile
-                string json = this.SaveGameFile.GetFileContent();
+                string json = Files.GetFileContent(Path.Combine(Directory.GetCurrentDirectory(), "savegame.txt"));
                 //Deserialize the json
                 gameState = JsonConvert.DeserializeObject(json);
                 //For the next part we need to cast/convert all properties that are stored in our dyanmic list to the appropriate type
@@ -206,12 +214,12 @@ namespace MemoryGame
                 this.Rows = (int)gameState.Rows;
                 this.Collumns = (int)gameState.Collumns;
                 this.Players = gameState.Players.ToObject<List<Player>>().ToArray(); //Seems dirty 
-                this.SelectedCards = gameState.SelectedCards.ToObject<List<CardPictureBox>>(); 
                 //It is important that we style our deck after we loaded in all the settings, otherwise we get a default 4*4 playing field
                 //even though the settings may state otherwise
                 this.ConfigurateDeckStyling();
                 List<CardPictureBoxJson> deck = new List<CardPictureBoxJson>();
                 deck = gameState.Deck.ToObject<List<CardPictureBoxJson>>();
+
                 foreach (CardPictureBoxJson jsonCard in deck)
                 {
                     CardNameAndImage pairNameAndImage = this.ThemeImages[this.SelectedTheme].Find(item => item.Name == jsonCard.PairName);
@@ -227,6 +235,12 @@ namespace MemoryGame
                         Image = (jsonCard.IsSolved) ? pairNameAndImage.Resource : null //Show image based on if it was solved 
                     };
                     card.Click += this.CardClicked;
+                    //Check if the card is currently selected, if so add it to the selectedCards list.
+                    if (jsonCard.IsSelected)
+                    {
+                        this.SelectedCards.Add(card);
+                        card.Image = pairNameAndImage.Resource;
+                    }
                     this.Deck.Add(card);
                 }
                 foreach (CardPictureBox card in this.Deck)
@@ -235,9 +249,9 @@ namespace MemoryGame
                 }
             }
             //Remove the savegame from the savefile to prevent abuse
-            this.SaveGameFile.WriteToFile("", overwrite: true);
+            Files.WriteToFile(Path.Combine(Directory.GetCurrentDirectory(), "savegame.txt"), "", overwrite: true);
             this.HasUnfinishedGame = false;
-            this.Form1.ShowLoadGame();
+            this.Form1.ShowLoadGameCheckbox();
             //Pass back control to the player
             this.GameIsFrozen = false;
         }
@@ -275,6 +289,7 @@ namespace MemoryGame
                 this.Panel.Controls.Add(card);
             }
         }
+
         /// <summary>
         /// This method check if the selected card in SelectedCards list are a match. 
         /// If it is a match flip a boolean in the PictureBox so that we know this card has previously been solved.

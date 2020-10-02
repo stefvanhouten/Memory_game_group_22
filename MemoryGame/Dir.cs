@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-
 /// <summary>
 /// The class is redundant for the memory game, but can be expanded for further use
 /// </summary>
