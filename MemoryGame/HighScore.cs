@@ -81,7 +81,6 @@ namespace MemoryGame
         {
             string moppie = Files.GetFileContent(Path.Combine(Directory.GetCurrentDirectory(), "highscores.txt"));
             this.HighScores = JsonConvert.DeserializeObject<List<HighScoreListing>>(moppie);
-            
             //retrieve the contents of the file with HighScore.HighScorePath.GetFileContent
             //store the returned value in a variable
             //decode the JSON variable and append to this.highScores
