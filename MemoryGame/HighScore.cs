@@ -71,9 +71,12 @@ namespace MemoryGame
             HighScoreListing listing = new HighScoreListing { Name = player.Name, Score = player.ScoreBoard.Score };
             this.HighScores.Add(listing);
             string json = JsonConvert.SerializeObject(this.HighScores, Formatting.Indented);
-            //Path.Combine(Directory.GetCurrentDirectory()
+
+            Encryptor EncryptorObj = new Encryptor();
+            string encryptedJson = EncryptorObj.Encrypt(json);
+
             Files.Create(Path.Combine(Directory.GetCurrentDirectory(),"highscores.txt"));
-            Files.WriteToFile(Path.Combine(Directory.GetCurrentDirectory(), "highscores.txt"), json, true);
+            Files.WriteToFile(Path.Combine(Directory.GetCurrentDirectory(), "highscores.txt"), encryptedJson, true);
         }
 
         //is going to need a return type, for now void for the sake of it
