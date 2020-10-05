@@ -2,6 +2,8 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
+using System.Xml;
+using Security;
 
 namespace MemoryGame
 {
@@ -68,38 +70,74 @@ namespace MemoryGame
 
         public void AddToHighScores(Player player)
         {
+            /*
+             * Add to the highscores list
+             */
             HighScoreListing listing = new HighScoreListing { Name = player.Name, Score = player.ScoreBoard.Score };
             this.HighScores.Add(listing);
+
+            /*
+             * Convert the list to JSON
+             */
             string json = JsonConvert.SerializeObject(this.HighScores, Formatting.Indented);
 
+            /*
+             * Encrypt the JSON file
+             */
             Encryptor EncryptorObj = new Encryptor();
             string encryptedJson = EncryptorObj.Encrypt(json);
 
+            /*
+             * Create the filepath and write the encrypted JSON format to file
+             */
             Files.Create(Path.Combine(Directory.GetCurrentDirectory(),"highscores.txt"));
             Files.WriteToFile(Path.Combine(Directory.GetCurrentDirectory(), "highscores.txt"), encryptedJson, true);
         }
 
-        //is going to need a return type, for now void for the sake of it
-        public void GetHighScores(int limit)
+        /*
+         * this.HighScores is populated with the file its contents (and can be accessed)
+         * You get the List returned in case any mutation is required or any specific handling of the List is required
+         * If not needed, don't catch it, if required, you can catch it and handle it in the way you want
+         */
+        public List<HighScoreListing> GetHighScores(int limit)
         {
+            /*
+             * Get the content of the file (highscores)
+             */
             string moppie = Files.GetFileContent(Path.Combine(Directory.GetCurrentDirectory(), "highscores.txt"));
+            /*
+             * If the content of the file isn't empty, decode it
+             */
             if(moppie.Length > 0)
             {
+                /*
+                 * Decrypt the JSON file
+                 */
+                Encryptor EncryptorObj = new Encryptor();
+                EncryptorObj.Decrypt(moppie);
+
+                /*
+                 * Decode the JSON and assign it to the LIST
+                 */
                 this.HighScores = JsonConvert.DeserializeObject<List<HighScoreListing>>(moppie);
             }
-            //retrieve the contents of the file with HighScore.HighScorePath.GetFileContent
-            //store the returned value in a variable
-            //decode the JSON variable and append to this.highScores
-            //if called this.ReArrangeHighScores(limit); re-arranges the list...
-            // and returns 0 to limit
-            //return the "returned" value of this.ReArrangeHighScores(limit);
+
+            return this.HighScores;
         }
 
-        private void ReArrangeHighScores(int limit)
+        public void Sort(string Hierarchy)
         {
-            //this will need a return type as well, but for now, first create the method
-            // Re-arrange the HighScores from high to low or low to high
-            //int limit returns the highscores from 0 to "limit"
+            /*
+             * ascending is rom lowest value to highest value
+             * descending is from highest value to lowest value
+             */
+            if (Hierarchy == "ascending")
+            {
+                this.HighScores.Sort((x, y) => x.Score.CompareTo(y.Score));
+            } else if (Hierarchy == "descending")
+            {
+                this.HighScores.Sort((x, y) => y.Score.CompareTo(x.Score));
+            }
         }
     }
 }
