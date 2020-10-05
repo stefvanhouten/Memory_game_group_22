@@ -102,6 +102,14 @@ namespace MemoryGame
          */
         public List<HighScoreListing> GetHighScores(int limit)
         {
+            //UNDER CONSTR
+            /*List<int> Highscores = new List<int>();
+            Highscores.Sort();
+            for (int i = 0; i < 10; i++)
+            {
+                Console.WriteLine(Highscores[i);
+            }*/
+
             /*
              * Get the content of the file (highscores)
              */
