@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
@@ -79,7 +80,7 @@ namespace MemoryGame
             /*
              * Convert the list to JSON
              */
-            string json = JsonConvert.SerializeObject(this.HighScores, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(this.HighScores, Newtonsoft.Json.Formatting.Indented);
 
             /*
              * Encrypt the JSON file
@@ -125,7 +126,7 @@ namespace MemoryGame
             return this.HighScores;
         }
 
-        public void Sort(string Hierarchy)
+        public List<HighScoreListing> Sort(string Hierarchy)
         {
             /*
              * ascending is rom lowest value to highest value
@@ -138,6 +139,7 @@ namespace MemoryGame
             {
                 this.HighScores.Sort((x, y) => y.Score.CompareTo(x.Score));
             }
+            return this.HighScores;
         }
     }
 }
