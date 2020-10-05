@@ -150,7 +150,7 @@ namespace MemoryGame
             else
             {
                 this.HighScoresGridView.Rows.Clear();
-                List<HighScoreListing> highScores = this.game.HighScores.highScores;
+                List<HighScoreListing> highScores = this.game.HighScores.HighScores;
                 foreach (HighScoreListing highScoreListing in highScores)
                 {
                     this.HighScoresGridView.Rows.Add(highScoreListing.Name, highScoreListing.Score);

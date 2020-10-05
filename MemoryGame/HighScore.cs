@@ -10,21 +10,21 @@ namespace MemoryGame
     /// </summary>
     struct HighScoreListing
     {
-        public string Name { get; private set; }
-        public int Score { get; private set; }
+        public string Name { get;  set; }
+        public int Score { get;  set; }
 
-        public HighScoreListing(string playerName, int playerScore)
-        {
-            /*  This class is used to store a listing from the HighScore class. 
-             *  After the memory game ends I will instantiate this class thus calling this constructor. 
-             *  
-             *  When this class is instantiated it will recieve a (string)playerName and a (int)playerScore. 
-             *  You will have to communicate this with Daniel and Wietze because the highscores should be saved
-             *  to a file and loaded from a file. 
-             */
-            this.Name = playerName;
-            this.Score = playerScore;
-        }
+        //public HighScoreListing(string playerName, int playerScore)
+        //{
+        //    /*  This class is used to store a listing from the HighScore class. 
+        //     *  After the memory game ends I will instantiate this class thus calling this constructor. 
+        //     *  
+        //     *  When this class is instantiated it will recieve a (string)playerName and a (int)playerScore. 
+        //     *  You will have to communicate this with Daniel and Wietze because the highscores should be saved
+        //     *  to a file and loaded from a file. 
+        //     */
+        //    this.Name = playerName;
+        //    this.Score = playerScore;
+        //}
     }
 
     /// <summary>
@@ -32,7 +32,9 @@ namespace MemoryGame
     /// </summary>
     class HighScore
     {
-        public List<HighScoreListing> highScores { get; set; }
+        private int MaximumEntries;
+
+        public List<HighScoreListing> HighScores { get; set; }
         public HighScore()
         {
             /*  The highscores class is used to populate the table in the HighScoresTab in tabcontrol.
@@ -60,20 +62,25 @@ namespace MemoryGame
              *    sorts out the top (x) highest scoring games!
              *    
              */
-            this.highScores = new List<HighScoreListing>();
+            this.HighScores = new List<HighScoreListing>();
+            this.GetHighScores(15);
         }
 
         public void AddToHighScores(Player player)
         {
-            HighScoreListing listing = new HighScoreListing(player.Name, player.ScoreBoard.Score);
-            this.highScores.Add(listing);
-            string json = JsonConvert.SerializeObject(this.highScores);
-            Files.WriteToFile((Path.Combine(Directory.GetCurrentDirectory(), "highscores.txt")), json);
+            HighScoreListing listing = new HighScoreListing { Name = player.Name, Score = player.ScoreBoard.Score };
+            this.HighScores.Add(listing);
+            string json = JsonConvert.SerializeObject(this.HighScores, Formatting.Indented);
+            //Path.Combine(Directory.GetCurrentDirectory()
+            Files.Create(Path.Combine(Directory.GetCurrentDirectory(),"highscores.txt"));
+            Files.WriteToFile(Path.Combine(Directory.GetCurrentDirectory(), "highscores.txt"), json, true);
         }
 
         //is going to need a return type, for now void for the sake of it
         public void GetHighScores(int limit)
         {
+            string moppie = Files.GetFileContent(Path.Combine(Directory.GetCurrentDirectory(), "highscores.txt"));
+            this.HighScores = JsonConvert.DeserializeObject<List<HighScoreListing>>(moppie);
             //retrieve the contents of the file with HighScore.HighScorePath.GetFileContent
             //store the returned value in a variable
             //decode the JSON variable and append to this.highScores
